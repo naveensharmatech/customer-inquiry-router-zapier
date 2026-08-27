@@ -45,41 +45,12 @@
 
 ## 📊 Results That Matter
 
-<table>
-<tr>
-<td>
-## 📸 Workflow Overview
-
-![Workflow](./images/workflow.png)
-![Configuration](./images/configuration.png)
-![Results](./images/results.png)
-### ⏱️ Time Saved
-**98% reduction**
-- Before: 2-3 hours/day
-- After: 5 minutes/day
-- Monthly: 40-60 hours 🚀
-
-</td>
-<td>
-
-### 📨 Response Time
-**99% faster**
-- Before: 24 hours
-- After: 5 minutes
-- Impact: +40% satisfaction 📈
-
-</td>
-<td>
-
-### 👥 Lead Capture
-**100% automated**
-- Before: 60% manual
-- After: 100% auto
-- Result: Zero leads lost 💰
-
-</td>
-</tr>
-</table>
+| Metric | Before | After | Impact |
+|--------|--------|-------|--------|
+| **Daily Triage Time** | 2-3 hours | 5 minutes | **-98%** ⚡ |
+| **Response Time** | 24 hours | 5 minutes | **-99%** 🚀 |
+| **Lead Capture** | 60% | 100% | **+40%** 📈 |
+| **Monthly Hours Saved** | — | 40-60 hrs | **Massive ROI** 💰 |
 
 ---
 
@@ -122,8 +93,6 @@
 ![Workflow Diagram](./images/workflow-diagram.png)
 *Visual overview: Email trigger → Claude AI analysis → Smart routing → Responses & HubSpot integration*
 
----
-
 ### Full Workflow Overview
 ![Workflow Overview](./images/workflow-overview.png)
 *Complete automation flow with all steps visualized*
@@ -139,6 +108,7 @@
 ---
 
 ## 📈 Monthly Impact Report
+
 📊 Performance Metrics (August 2026)
 
 ✅ Emails Processed: 1,500+
@@ -181,6 +151,7 @@ While building this project, I earned:
 4. Connect HubSpot
 5. Test with sample email
 6. Deploy ✅
+
 ---
 
 ## 📚 Documentation
@@ -200,6 +171,8 @@ Complete guides and documentation:
 - **[assets/case-study.md](./assets/case-study.md)** - Full project case study
 - **[assets/performance-metrics.md](./assets/performance-metrics.md)** - Performance data & ROI
 
+---
+
 ## 📁 Repository Structure
 
 customer-inquiry-router-zapier/
@@ -215,23 +188,16 @@ customer-inquiry-router-zapier/
 │ ├── case-study.md
 │ └── performance-metrics.md
 └── images/
+├── workflow-diagram.png
 ├── workflow-overview.png
 ├── path-configuration.png
 └── execution-results.png
 
----
-
-THEN: FIX IMAGE FILENAMES
-
-Change lines 122, 126, 130 from:
-
-./images/workflow.png → ./images/workflow-overview.png
-./images/routing.png → ./images/path-configuration.png
-./images/results.png → ./images/execution-results.png
 
 ---
 
 ## 💡 Use Cases
+
 ✅ Customer Support Automation
 ✅ Sales Inquiry Routing
 ✅ Lead Qualification
@@ -240,7 +206,8 @@ Change lines 122, 126, 130 from:
 
 ---
 
-## 📞 Contact & Connect 
+## 📞 Contact & Connect
+
 <div align="center">
 
 **Built by:** Naveen Sharma 👨‍💻
@@ -268,4 +235,3 @@ This project is open source and available under the MIT License.
 [⬆ Back to Top](#-ai-powered-customer-inquiry-router)
 
 </div>
-
