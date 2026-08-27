@@ -187,8 +187,7 @@ While building this project, I earned:
 
 ---
 
-## 📞 Contact & Connect contact@naveensharma.net , contact.naveensharma@gmail.com
-
+## 📞 Contact & Connect 
 <div align="center">
 
 **Built by:** Naveen Sharma 👨‍💻
