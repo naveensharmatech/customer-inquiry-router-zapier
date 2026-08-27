@@ -14,8 +14,6 @@
 
 ### Eliminate manual email triage with AI-powered automation ⚡
 
-</div>
-
 ---
 
 ## 🎯 The Challenge
