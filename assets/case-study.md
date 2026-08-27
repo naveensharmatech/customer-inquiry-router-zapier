@@ -289,7 +289,7 @@ Potential v2 improvements:
 **Built by:** Naveen Sharma  
 **Portfolio:** [naveensharma.net](https://naveensharma.net)  
 **GitHub:** [github.com/naveensharmatech](https://github.com/naveensharmatech)  
-**LinkedIn:** [@naveensharma](https://linkedin.com/in/naveensharma)  
+**LinkedIn:** [@naveensharma](https://linkedin.com/in/naveensharmatech)  
 
 ---
 
