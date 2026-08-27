@@ -119,6 +119,11 @@
 ## 📸 See It In Action
 
 ### Full Workflow
+### Complete Workflow Diagram
+![Workflow Diagram](./images/workflow-diagram.png)
+*Visual overview of the complete Zapier automation workflow - from email trigger through AI analysis, routing, and response*
+
+---
 ![Workflow](./images/workflow.png)
 *Email → AI Analysis → Smart Routing → Response*
 
