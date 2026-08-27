@@ -118,22 +118,23 @@
 
 ## 📸 See It In Action
 
-### Full Workflow
 ### Complete Workflow Diagram
 ![Workflow Diagram](./images/workflow-diagram.png)
-*Visual overview of the complete Zapier automation workflow - from email trigger through AI analysis, routing, and response*
+*Visual overview: Email trigger → Claude AI analysis → Smart routing → Responses & HubSpot integration*
 
 ---
-![Workflow](./images/workflow.png)
-*Email → AI Analysis → Smart Routing → Response*
+
+### Full Workflow Overview
+![Workflow Overview](./images/workflow-overview.png)
+*Complete automation flow with all steps visualized*
 
 ### Priority Routing Configuration
-![Routing](./images/routing.png)
-*High/Medium/Low paths configured with custom logic*
+![Path Configuration](./images/path-configuration.png)
+*High/Medium/Low routing paths with custom logic*
 
-### Live Results
-![Results](./images/results.png)
-*Dashboard showing automation in action*
+### Live Execution Results
+![Execution Results](./images/execution-results.png)
+*Real workflow execution showing all steps tested and successful*
 
 ---
 
