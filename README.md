@@ -175,6 +175,53 @@ While building this project, I earned:
 4. Connect HubSpot
 5. Test with sample email
 6. Deploy ✅
+---
+
+## 📚 Documentation
+
+Complete guides and documentation:
+
+### Getting Started
+- **[SETUP.md](./SETUP.md)** - Step-by-step installation guide
+- **[WORKFLOW.md](./WORKFLOW.md)** - Detailed workflow overview
+
+### Technical Docs
+- **[docs/HOW-IT-WORKS.md](./docs/HOW-IT-WORKS.md)** - Technical breakdown
+- **[docs/API-SETUP.md](./docs/API-SETUP.md)** - API configuration
+- **[docs/TROUBLESHOOTING.md](./docs/TROUBLESHOOTING.md)** - Common issues & fixes
+
+### Case Study & Metrics
+- **[assets/case-study.md](./assets/case-study.md)** - Full project case study
+- **[assets/performance-metrics.md](./assets/performance-metrics.md)** - Performance data & ROI
+
+## 📁 Repository Structure
+
+customer-inquiry-router-zapier/
+├── README.md
+├── SETUP.md
+├── WORKFLOW.md
+├── LICENSE
+├── docs/
+│ ├── HOW-IT-WORKS.md
+│ ├── API-SETUP.md
+│ └── TROUBLESHOOTING.md
+├── assets/
+│ ├── case-study.md
+│ └── performance-metrics.md
+└── images/
+├── workflow-overview.png
+├── path-configuration.png
+└── execution-results.png
+
+---
+
+THEN: FIX IMAGE FILENAMES
+
+Change lines 122, 126, 130 from:
+
+./images/workflow.png → ./images/workflow-overview.png
+./images/routing.png → ./images/path-configuration.png
+./images/results.png → ./images/execution-results.png
 
 ---
 
