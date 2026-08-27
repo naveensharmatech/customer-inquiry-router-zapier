@@ -50,7 +50,11 @@
 <table>
 <tr>
 <td>
+## 📸 Workflow Overview
 
+![Workflow](./images/workflow.png)
+![Configuration](./images/configuration.png)
+![Results](./images/results.png)
 ### ⏱️ Time Saved
 **98% reduction**
 - Before: 2-3 hours/day
