@@ -130,6 +130,7 @@ While building this project, I earned:
 ![Claude Certified](https://img.shields.io/badge/Claude-Certified_Associate-0969DA?style=flat-square)
 ![Make.com](https://img.shields.io/badge/Make.com-AI_Agents-FF6B35?style=flat-square)
 ![HubSpot](https://img.shields.io/badge/HubSpot-Revenue_Ops-FF7A59?style=flat-square)
+![n8n](https://img.shields.io/badge/n8n-Foundations-FF6B6B?style=flat-square)
 ![AI Trainer](https://img.shields.io/badge/Bronze-AI_Trainer-FFB700?style=flat-square)
 
 </div>
