@@ -1,14 +1,12 @@
 # 🤖 AI-Powered Customer Inquiry Router
-
 <div align="center">
-
 [![Status](https://img.shields.io/badge/Status-Live%20%26%20Running-brightgreen?style=for-the-badge&logo=github)](https://github.com)
 [![Claude](https://img.shields.io/badge/Claude_API-Integrated-blue?style=for-the-badge&logo=python)](https://anthropic.com)
 [![Zapier](https://img.shields.io/badge/Zapier-Automation-ff6b35?style=for-the-badge&logo=zapier)](https://zapier.com)
 [![HubSpot](https://img.shields.io/badge/HubSpot-CRM-ff7a59?style=for-the-badge&logo=hubspot)](https://hubspot.com)
-
 ![Visitors](https://img.shields.io/badge/Visitors-100%25%20Automated-blueviolet?style=flat-square)
 ![Built](https://img.shields.io/badge/Built-Aug%202026-orange?style=flat-square)
+</div>
 
 ---
 
@@ -32,6 +30,7 @@
 ## ✨ The Solution
 
 ### Intelligent Automation Workflow
+
 📬 Email In → 🤖 Claude AI → 🎯 Smart Routing → 📤 Response Out
 
 **What it does:**
@@ -91,19 +90,15 @@
 
 ### Complete Workflow Diagram
 ![Workflow Diagram](./images/workflow-diagram.png)
-*Visual overview: Email trigger → Claude AI analysis → Smart routing → Responses & HubSpot integration*
 
 ### Full Workflow Overview
 ![Workflow Overview](./images/workflow-overview.png)
-*Complete automation flow with all steps visualized*
 
 ### Priority Routing Configuration
 ![Path Configuration](./images/path-configuration.png)
-*High/Medium/Low routing paths with custom logic*
 
 ### Live Execution Results
 ![Execution Results](./images/execution-results.png)
-*Real workflow execution showing all steps tested and successful*
 
 ---
 
@@ -136,102 +131,7 @@ While building this project, I earned:
 
 ---
 
-## 🚀 Getting Started
+## 💼 Open to Opportunities
 
-### Prerequisites
-- ✅ Zapier account (free)
-- ✅ Claude API key (free trial)
-- ✅ HubSpot account (free)
-- ✅ Gmail account
-
-### Quick Setup
-1. Connect Gmail to Zapier
-2. Add Claude API key
-3. Configure routing rules
-4. Connect HubSpot
-5. Test with sample email
-6. Deploy ✅
-
----
-
-## 📚 Documentation
-
-Complete guides and documentation:
-
-### Getting Started
-- **[SETUP.md](./SETUP.md)** - Step-by-step installation guide
-- **[WORKFLOW.md](./WORKFLOW.md)** - Detailed workflow overview
-
-### Technical Docs
-- **[docs/HOW-IT-WORKS.md](./docs/HOW-IT-WORKS.md)** - Technical breakdown
-- **[docs/API-SETUP.md](./docs/API-SETUP.md)** - API configuration
-- **[docs/TROUBLESHOOTING.md](./docs/TROUBLESHOOTING.md)** - Common issues & fixes
-
-### Case Study & Metrics
-- **[assets/case-study.md](./assets/case-study.md)** - Full project case study
-- **[assets/performance-metrics.md](./assets/performance-metrics.md)** - Performance data & ROI
-
----
-
-## 📁 Repository Structure
-
-customer-inquiry-router-zapier/
-├── README.md
-├── SETUP.md
-├── WORKFLOW.md
-├── LICENSE
-├── docs/
-│ ├── HOW-IT-WORKS.md
-│ ├── API-SETUP.md
-│ └── TROUBLESHOOTING.md
-├── assets/
-│ ├── case-study.md
-│ └── performance-metrics.md
-└── images/
-├── workflow-diagram.png
-├── workflow-overview.png
-├── path-configuration.png
-└── execution-results.png
-
-
----
-
-## 💡 Use Cases
-
-✅ Customer Support Automation
-✅ Sales Inquiry Routing
-✅ Lead Qualification
-✅ Support Ticket Triage
-✅ Internal Request Management
-
----
-
-## 📞 Contact & Connect
-
-<div align="center">
-
-**Built by:** Naveen Sharma 👨‍💻
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/naveensharma)
-[![Portfolio](https://img.shields.io/badge/Portfolio-naveensharma.net-FF6B35?style=for-the-badge)](https://naveensharma.net)
-[![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github)](https://github.com/naveensharmatech)
-
-</div>
-
----
-
-## 📄 License
-
-This project is open source and available under the MIT License.
-
----
-
-<div align="center">
-
-### ⭐ If this project helped you, please star it!
-
-**Made with ❤️ by Naveen Sharma**
-
-[⬆ Back to Top](#-ai-powered-customer-inquiry-router)
-
-</div>
+**About Me:**
+- 🎯 **Role:** AI Automation Engineer | No-Code
