@@ -220,6 +220,36 @@ customer-inquiry-router-zapier/
 
 ---
 
+## 💼 Open to Opportunities
+
+**About Me:**
+- 🎯 **Role:** AI Automation Engineer | No-Code Specialist
+- 📍 **Status:** Job Seeker | Available for Immediate Start
+- 🌍 **Open to:** Remote | Global B2B | Contract | Full-time
+- ✅ **Certifications:** Zapier AI Builder | Claude Certified Associate | HubSpot Revenue Operations
+
+**What I Bring:**
+- ✨ Production-grade automation workflows (Zapier, Make.com, n8n)
+- 🤖 Claude API & generative AI integration expertise
+- 📊 CRM + business process automation knowledge
+- 💼 4+ years SaaS & health-tech background
+- 🎓 Credentialed & continuously learning
+
+**Looking For:**
+- 🚀 AI Automation Engineer positions
+- 🔧 Zapier/Make.com specialist roles
+- 🌐 No-code automation implementations
+- 💡 Automation consulting opportunities
+- 🤝 Remote/Global opportunities
+
+**Let's Connect:**
+📧 **Email:** [contact@naveensharma.net](mailto:contact.naveensharma@gmail.com)
+🔗 **LinkedIn:** [linkedin.com/in/naveensharmatech](https://linkedin.com/in/naveensharmatech)
+🌐 **Portfolio:** [naveensharma.net](https://naveensharma.net)
+🐙 **GitHub:** [github.com/naveensharmatech](https://github.com/naveensharmatech)
+
+---
+
 ## 📄 License
 
 This project is open source and available under the MIT License.
