@@ -35,7 +35,7 @@
 
 **What it does:**
 - 🧠 **AI Analysis** - Claude reads & understands each inquiry
-- 🎯 **Smart Priority** - Scores as High/Medium/Low automatically  
+- 🎯 **Smart Priority** - Scores as High/Medium/Low automatically
 - 🚀 **Auto Routing** - Sends to correct team instantly
 - 👥 **Lead Capture** - Creates HubSpot contacts automatically
 - 💬 **Personalized Response** - Sends customized replies in 5 min
@@ -90,15 +90,19 @@
 
 ### Complete Workflow Diagram
 ![Workflow Diagram](./images/workflow-diagram.png)
+*Visual overview: Email trigger → Claude AI analysis → Smart routing → Responses & HubSpot integration*
 
 ### Full Workflow Overview
 ![Workflow Overview](./images/workflow-overview.png)
+*Complete automation flow with all steps visualized*
 
 ### Priority Routing Configuration
 ![Path Configuration](./images/path-configuration.png)
+*High/Medium/Low routing paths with custom logic*
 
 ### Live Execution Results
 ![Execution Results](./images/execution-results.png)
+*Real workflow execution showing all steps tested and successful*
 
 ---
 
@@ -134,4 +138,134 @@ While building this project, I earned:
 ## 💼 Open to Opportunities
 
 **About Me:**
-- 🎯 **Role:** AI Automation Engineer | No-Code
+- 🎯 **Role:** AI Automation Engineer | No-Code Specialist
+- 📍 **Status:** Job Seeker | Available for Immediate Start
+- 🌍 **Open to:** Remote | Global B2B | Contract | Full-time
+- ✅ **Certifications:** Zapier AI Builder | Claude Certified Associate | HubSpot Revenue Operations
+
+**What I Bring:**
+- ✨ Production-grade automation workflows (Zapier, Make.com, n8n)
+- 🤖 Claude API & generative AI integration expertise
+- 📊 CRM + business process automation knowledge
+- 💼 4+ years SaaS & health-tech background
+- 🎓 Credentialed & continuously learning
+
+**Looking For:**
+- 🚀 AI Automation Engineer positions
+- 🔧 Zapier/Make.com specialist roles
+- 🌐 No-code automation implementations
+- 💡 Automation consulting opportunities
+- 🤝 Remote/Global opportunities
+
+**Let's Connect:**
+📧 **Email:** [naveen.freelancehub@gmail.com](mailto:naveen.freelancehub@gmail.com)
+🔗 **LinkedIn:** [linkedin.com/in/naveensharma](https://linkedin.com/in/naveensharma)
+🌐 **Portfolio:** [naveensharma.net](https://naveensharma.net)
+🐙 **GitHub:** [github.com/naveensharmatech](https://github.com/naveensharmatech)
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- ✅ Zapier account (free)
+- ✅ Claude API key (free trial)
+- ✅ HubSpot account (free)
+- ✅ Gmail account
+
+### Quick Setup
+1. Connect Gmail to Zapier
+2. Add Claude API key
+3. Configure routing rules
+4. Connect HubSpot
+5. Test with sample email
+6. Deploy ✅
+
+---
+
+## 📚 Documentation
+
+Complete guides and documentation:
+
+### Getting Started
+- **[SETUP.md](./SETUP.md)** - Step-by-step installation guide
+- **[WORKFLOW.md](./WORKFLOW.md)** - Detailed workflow overview
+
+### Technical Docs
+- **[docs/HOW-IT-WORKS.md](./docs/HOW-IT-WORKS.md)** - Technical breakdown
+- **[docs/API-SETUP.md](./docs/API-SETUP.md)** - API configuration
+- **[docs/TROUBLESHOOTING.md](./docs/TROUBLESHOOTING.md)** - Common issues & fixes
+
+### Case Study & Metrics
+- **[assets/case-study.md](./assets/case-study.md)** - Full project case study
+- **[assets/performance-metrics.md](./assets/performance-metrics.md)** - Performance data & ROI
+
+---
+
+## 📁 Repository Structure
+
+```
+customer-inquiry-router-zapier/
+├── README.md
+├── SETUP.md
+├── WORKFLOW.md
+├── LICENSE
+├── docs/
+│ ├── HOW-IT-WORKS.md
+│ ├── API-SETUP.md
+│ └── TROUBLESHOOTING.md
+├── assets/
+│ ├── case-study.md
+│ └── performance-metrics.md
+└── images/
+├── workflow-diagram.png
+├── workflow-overview.png
+├── path-configuration.png
+└── execution-results.png
+```
+
+---
+
+## 💡 Use Cases
+
+✅ Customer Support Automation
+✅ Sales Inquiry Routing
+✅ Lead Qualification
+✅ Support Ticket Triage
+✅ Internal Request Management
+
+---
+
+## 📞 Contact & Connect
+
+<div align="center">
+
+**Built by:** Naveen Sharma 👨‍💻 | AI Automation Engineer
+**Current Status:** Open to Opportunities | Available Now
+
+---
+
+[![Email](https://img.shields.io/badge/Email-naveen.freelancehub@gmail.com-EA4335?style=for-the-badge&logo=gmail)](mailto:naveen.freelancehub@gmail.com)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/naveensharma)
+[![Portfolio](https://img.shields.io/badge/Portfolio-naveensharma.net-FF6B35?style=for-the-badge)](https://naveensharma.net)
+[![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github)](https://github.com/naveensharmatech)
+
+</div>
+
+---
+
+## 📄 License
+
+This project is open source and available under the MIT License.
+
+---
+
+<div align="center">
+
+### ⭐ If this project helped you, please star it!
+
+**Made with ❤️ by Naveen Sharma**
+
+[⬆ Back to Top](#-ai-powered-customer-inquiry-router)
+
+</div>
