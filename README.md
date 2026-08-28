@@ -212,7 +212,7 @@ customer-inquiry-router-zapier/
 
 **Built by:** Naveen Sharma 👨‍💻
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/naveensharma)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/naveensharmatech)
 [![Portfolio](https://img.shields.io/badge/Portfolio-naveensharma.net-FF6B35?style=for-the-badge)](https://naveensharma.net)
 [![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github)](https://github.com/naveensharmatech)
 
@@ -225,8 +225,8 @@ customer-inquiry-router-zapier/
 **About Me:**
 - 🎯 **Role:** AI Automation Engineer | No-Code Specialist
 - 📍 **Status:** Job Seeker | Available for Immediate Start
-- 🌍 **Open to:** Remote | Global B2B | Contract | Full-time
-- ✅ **Certifications:** Zapier AI Builder | Claude Certified Associate | HubSpot Revenue Operations
+- 🌍 **Open to:** Remote | Global B2B | Contract | Full-time | Hybrid
+- ✅ **Certifications:** Zapier AI Builder | Claude Certified Associate | HubSpot Revenue Operations | Make.com Automation to AI Agents | n8n Foundations 
 
 **What I Bring:**
 - ✨ Production-grade automation workflows (Zapier, Make.com, n8n)
