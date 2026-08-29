@@ -335,7 +335,7 @@ Just authenticate with the account you want.
 - Example use case
 
 ### Q: Where do I send general feedback?
-**A:** Email: naveen.freelancehub@gmail.com
+**A:** Email: contact@naveensharma.net or contact.naveensharma@gmail.com 
 Or open a discussion in GitHub (Discussions tab).
 
 ---
