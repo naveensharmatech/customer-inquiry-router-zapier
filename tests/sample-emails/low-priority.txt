@@ -1,0 +1,25 @@
+Subject: Pricing question for enterprise plan
+From: prospect@example.com
+To: info@company.com
+Date: 2024-01-15T14:20:00Z
+
+Hello,
+
+I'm a new prospect interested in learning more about your service. I've read through your website and the pricing page shows three plans: Starter, Professional, and Enterprise.
+
+I have a few questions about the Enterprise plan:
+
+1. What is the pricing for 500 users?
+2. Is there a discount for annual billing?
+3. Does the enterprise plan include custom integrations?
+4. What kind of support comes with the enterprise plan?
+5. Can we get a demo of the platform?
+
+We're currently evaluating several solutions and would like to compare your pricing and features with competitors.
+
+Please let me know the best next steps to get more information.
+
+Thanks!
+John Smith
+Procurement Manager
+ABC Corporation

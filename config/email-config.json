@@ -1,0 +1,63 @@
+{
+  "routing_rules": {
+    "high_priority": {
+      "email": "urgent@company.com",
+      "prefix": "[URGENT]",
+      "sla_hours": 1,
+      "description": "Critical issues requiring immediate attention"
+    },
+    "medium_priority": {
+      "email": "support@company.com",
+      "prefix": "[SUPPORT]",
+      "sla_hours": 4,
+      "description": "Standard support requests"
+    },
+    "low_priority": {
+      "email": "general@company.com",
+      "prefix": "[INFO]",
+      "sla_hours": 24,
+      "description": "General inquiries and feedback"
+    }
+  },
+  "sales": {
+    "email": "sales@company.com",
+    "prefix": "[SALES]",
+    "sla_hours": 2,
+    "escalation_hours": 4
+  },
+  "support": {
+    "email": "support@company.com",
+    "prefix": "[SUPPORT]",
+    "sla_hours": 1,
+    "escalation_hours": 2
+  },
+  "billing": {
+    "email": "billing@company.com",
+    "prefix": "[BILLING]",
+    "sla_hours": 4,
+    "escalation_hours": 8
+  },
+  "feedback": {
+    "email": "feedback@company.com",
+    "prefix": "[FEEDBACK]",
+    "sla_hours": 24,
+    "escalation_hours": 48
+  },
+  "general": {
+    "email": "info@company.com",
+    "prefix": "[INFO]",
+    "sla_hours": 24,
+    "escalation_hours": 48
+  },
+  "logging": {
+    "enabled": true,
+    "log_file": "logs/routing.log",
+    "error_file": "logs/errors.log",
+    "retention_days": 30
+  },
+  "performance": {
+    "max_processing_time_seconds": 10,
+    "warning_threshold_seconds": 5,
+    "batch_size": 100
+  }
+}

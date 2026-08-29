@@ -1,0 +1,88 @@
+{
+  "sales": {
+    "email": "sales@company.com",
+    "description": "Sales and business inquiries",
+    "priority_boost": 1,
+    "sla": {
+      "high": 2,
+      "medium": 4,
+      "low": 24
+    },
+    "team_members": [
+      "sales@company.com",
+      "account-manager@company.com"
+    ],
+    "escalation_after_hours": 4
+  },
+  "support": {
+    "email": "support@company.com",
+    "description": "Technical support and troubleshooting",
+    "priority_boost": 2,
+    "sla": {
+      "high": 1,
+      "medium": 2,
+      "low": 8
+    },
+    "team_members": [
+      "support@company.com",
+      "tech-support@company.com"
+    ],
+    "escalation_after_hours": 2
+  },
+  "billing": {
+    "email": "billing@company.com",
+    "description": "Billing and account inquiries",
+    "priority_boost": 1,
+    "sla": {
+      "high": 2,
+      "medium": 4,
+      "low": 24
+    },
+    "team_members": [
+      "billing@company.com",
+      "accounts@company.com"
+    ],
+    "escalation_after_hours": 8
+  },
+  "feedback": {
+    "email": "feedback@company.com",
+    "description": "Feature requests and feedback",
+    "priority_boost": 0,
+    "sla": {
+      "high": 4,
+      "medium": 8,
+      "low": 24
+    },
+    "team_members": [
+      "feedback@company.com",
+      "product@company.com"
+    ],
+    "escalation_after_hours": 24
+  },
+  "general": {
+    "email": "info@company.com",
+    "description": "General inquiries",
+    "priority_boost": 0,
+    "sla": {
+      "high": 4,
+      "medium": 8,
+      "low": 24
+    },
+    "team_members": [
+      "info@company.com"
+    ],
+    "escalation_after_hours": 24
+  },
+  "routing_logic": {
+    "priority_levels": {
+      "high": "Immediate response required",
+      "medium": "Standard business hours response",
+      "low": "Response within 24 hours"
+    },
+    "escalation": {
+      "enabled": true,
+      "trigger": "response_time_exceeded",
+      "notify_managers": true
+    }
+  }
+}

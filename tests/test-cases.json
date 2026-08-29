@@ -1,0 +1,136 @@
+{
+  "test_suite": "Customer Inquiry Router - Email Classification Tests",
+  "version": "1.0.0",
+  "test_cases": [
+    {
+      "id": 1,
+      "name": "High Priority - Production Database Down",
+      "subject": "URGENT: Production Database Down",
+      "body": "Our production database is completely down and affecting all users. We need immediate help!",
+      "expected": {
+        "sentiment": "negative",
+        "intent": "support",
+        "priority": "high",
+        "department": "support"
+      }
+    },
+    {
+      "id": 2,
+      "name": "High Priority - Security Breach",
+      "subject": "URGENT: Potential Security Breach",
+      "body": "We detected unauthorized access to our account. This is critical and needs immediate investigation.",
+      "expected": {
+        "sentiment": "negative",
+        "intent": "support",
+        "priority": "high",
+        "department": "support"
+      }
+    },
+    {
+      "id": 3,
+      "name": "Medium Priority - Account Help",
+      "subject": "Help with my account login",
+      "body": "I'm unable to login to my account. Can someone help me reset my password?",
+      "expected": {
+        "sentiment": "neutral",
+        "intent": "support",
+        "priority": "medium",
+        "department": "support"
+      }
+    },
+    {
+      "id": 4,
+      "name": "Medium Priority - Billing Issue",
+      "subject": "Unexpected charge on my account",
+      "body": "I was charged twice for my subscription this month. I need this corrected immediately.",
+      "expected": {
+        "sentiment": "negative",
+        "intent": "billing",
+        "priority": "medium",
+        "department": "billing"
+      }
+    },
+    {
+      "id": 5,
+      "name": "Medium Priority - Pricing Inquiry",
+      "subject": "Questions about pricing plans",
+      "body": "Hi, I'm interested in your enterprise plan. Can you provide a quote for 100 users?",
+      "expected": {
+        "sentiment": "neutral",
+        "intent": "sales",
+        "priority": "medium",
+        "department": "sales"
+      }
+    },
+    {
+      "id": 6,
+      "name": "Low Priority - Feedback",
+      "subject": "Feature Request: Dark Mode",
+      "body": "I would love to see a dark mode in your application. It would be easier on the eyes at night.",
+      "expected": {
+        "sentiment": "positive",
+        "intent": "feedback",
+        "priority": "low",
+        "department": "feedback"
+      }
+    },
+    {
+      "id": 7,
+      "name": "Low Priority - Pricing Information",
+      "subject": "Pricing inquiry",
+      "body": "What are your pricing options for small businesses?",
+      "expected": {
+        "sentiment": "neutral",
+        "intent": "sales",
+        "priority": "low",
+        "department": "sales"
+      }
+    },
+    {
+      "id": 8,
+      "name": "Low Priority - General Inquiry",
+      "subject": "Just a quick question",
+      "body": "I'm wondering if you have a blog about best practices. Thanks!",
+      "expected": {
+        "sentiment": "neutral",
+        "intent": "other",
+        "priority": "low",
+        "department": "general"
+      }
+    },
+    {
+      "id": 9,
+      "name": "Positive Feedback",
+      "subject": "Great product, love your service!",
+      "body": "I just wanted to say how much I appreciate your excellent support team. They're fantastic!",
+      "expected": {
+        "sentiment": "positive",
+        "intent": "feedback",
+        "priority": "low",
+        "department": "feedback"
+      }
+    },
+    {
+      "id": 10,
+      "name": "Critical - API Outage",
+      "subject": "URGENT: API is down - production impacted",
+      "body": "Your API is completely down. Our application cannot function without it. This is a critical issue!",
+      "expected": {
+        "sentiment": "negative",
+        "intent": "support",
+        "priority": "high",
+        "department": "support"
+      }
+    }
+  ],
+  "accuracy_targets": {
+    "sentiment_analysis": 96.1,
+    "intent_classification": 94.8,
+    "priority_scoring": 95.0,
+    "routing_accuracy": 95.5
+  },
+  "performance_targets": {
+    "max_processing_time_ms": 2000,
+    "avg_processing_time_ms": 1800
+  }
+}

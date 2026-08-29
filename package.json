@@ -1,0 +1,26 @@
+{
+  "name": "customer-inquiry-router-zapier",
+  "version": "1.0.0",
+  "description": "AI-powered email router with sentiment analysis, intent detection, and smart routing to teams",
+  "main": "code/email-classifier.js",
+  "scripts": {
+    "test": "node tests/test-runner.js",
+    "lint": "eslint code/**/*.js",
+    "format": "prettier --write '**/*.{js,json,md}'",
+    "docs": "echo 'See docs/ folder for documentation'"
+  },
+  "keywords": ["zapier", "automation", "email", "ai", "routing", "hubspot", "javascript", "workflow"],
+  "author": "Naveen Sharma <contact.naveensharma@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/naveensharmatech/customer-inquiry-router-zapier"
+  },
+  "bugs": {
+    "url": "https://github.com/naveensharmatech/customer-inquiry-router-zapier/issues"
+  },
+  "homepage": "https://github.com/naveensharmatech/customer-inquiry-router-zapier#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

@@ -1,0 +1,21 @@
+Subject: Help - I can't login to my account
+From: user@example.com
+To: support@company.com
+Date: 2024-01-15T09:45:00Z
+
+Hi Support Team,
+
+I've been trying to login to my account for the past hour but I keep getting an error message saying "Invalid credentials". I'm sure my password is correct because I can access the password manager and it shows the same credentials.
+
+I've tried:
+- Clearing my browser cache
+- Using a different browser
+- Resetting password (but I'm not receiving the reset email)
+- Checking my email spam folder
+
+Can someone please help me get back into my account? I need to access my project dashboard to prepare for a meeting this afternoon.
+
+My email is user@example.com and I've been a customer for 2 years.
+
+Thanks for your help!
+User
