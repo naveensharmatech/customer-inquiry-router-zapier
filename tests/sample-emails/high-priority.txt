@@ -1,17 +1,13 @@
-Subject: URGENT: Production Database Down - All Services Affected
-From: customer@example.com
-To: support@company.com
-Date: 2024-01-15T10:30:00Z
+Subject: URGENT - Account compromised and charges appearing!
+From: frustrated-customer@gmail.com
 
-URGENT - Our production database is completely down and all customer-facing services are unavailable!
+Hi Support Team,
 
-This is a CRITICAL issue affecting 100% of our users. We have been down for 15 minutes already and losing money every minute this continues.
+I am extremely upset right now. I just noticed unauthorized charges on my account totaling $450. My account appears to have been compromised. This is URGENT and needs immediate attention.
 
-The error started at 10:15 AM when we tried to upgrade to the latest version. The database server is not responding to any queries and the application pool is constantly timing out.
+I've tried calling support twice but no one picked up. I need this resolved TODAY or I'm disputing the charges with my credit card company.
 
-We need IMMEDIATE assistance from your technical support team. This is our highest priority and we need to get this resolved within the next 30 minutes.
+Please respond within the next hour. This is critical.
 
-Please call me immediately at [phone number]. I am the CTO and available right now.
-
-Thank you,
-Customer Support Manager
+John Smith
+john.smith@businessmail.com

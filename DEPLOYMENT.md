@@ -1,94 +1,174 @@
 # Deployment Guide
 
-Complete guide for deploying to production.
+This guide explains how to deploy and update the Customer Inquiry Router Zap in production.
 
-## Pre-Launch Checklist
+## Current Deployment Status
 
-- [ ] All environment variables configured in `.env`
-- [ ] Email addresses verified in config
-- [ ] Test suite passing (100% success)
-- [ ] Backup of current routing rules created
-- [ ] Team notified of deployment
-- [ ] Rollback plan documented
+✅ **Status:** Live and operational in production
+- **Zap ID:** 377871067
+- **Zap Name:** AI Customer Inquiry Router
+- **Environment:** Production
+- **Launch Date:** Active since setup
 
-## Production Setup
+## Deployment Architecture
 
-### Step 1: Environment Configuration
-
-```bash
-NODE_ENV=production
-DEBUG=false
+```
+Gmail → Zapier Trigger → Claude API Analysis → Path Routing → Actions
+  ↓                              ↓                   ↓
+New Email               Email Classification    HIGH/MEDIUM/LOW
+                        Priority Scoring
+                        Sentiment Analysis
+                                                 ↓
+                              ┌─────────────────┬──────────────┬─────────────┐
+                              ↓                 ↓              ↓
+                         Path A (HIGH)    Path B (MEDIUM)  Path C (LOW)
+                         Urgent Email     Normal Email      Info Email
+                              ↓                 ↓              ↓
+                         Send Email +    Create HubSpot +  Send FAQ
+                         Immediate       Send Email        Response
+                         Response
 ```
 
-### Step 2: Zapier Zap Configuration
+## Pre-Deployment Checklist
 
-1. Create production Zap (separate from dev)
-2. Enable error notifications
-3. Set up logging webhook
-4. Configure rate limiting (1,500 emails/month)
+Before deploying any changes:
 
-### Step 3: Email Routing
+- [ ] All tests pass locally (`npm test`)
+- [ ] Environment variables are configured in Zapier
+- [ ] API keys are valid and have correct permissions
+- [ ] HubSpot field mappings match your portal
+- [ ] Gmail account is authenticated
+- [ ] Response email templates are reviewed
 
-Verify all department emails are configured:
-- Urgent/Sales: your-sales@company.com
-- Support: your-support@company.com
-- General: your-info@company.com
+## Deployment Steps
 
-### Step 4: Deployment
+### 1. Update Configuration
 
-```bash
-git checkout main
-git pull origin main
-npm install
-npm test
-# Deploy to Zapier
-```
+If making changes to email classification rules:
+1. Update `/config/keywords.json`
+2. Update `/config/email-config.json` if needed
+3. Test locally with sample emails
 
-## Launch Day
+### 2. Test with Sample Data
 
-1. **Morning (Before Launch)**
-   - Final test run with live data
-   - Verify all email addresses
-   - Check monitoring dashboards
+Before deploying to production:
+1. Run test suite: `npm test`
+2. Test each priority level:
+   - `npm run test:high`
+   - `npm run test:medium`
+   - `npm run test:low`
 
-2. **Launch Time**
-   - Enable Zapier Zap
-   - Monitor for first 100 emails
-   - Check error logs
+### 3. Update Zapier (if making code changes)
 
-3. **Post-Launch (First Hour)**
-   - Monitor every email routing
-   - Alert on any failures
-   - Keep team on standby
+If updating the JavaScript code in Step 3:
+1. Log into Zapier account
+2. Edit the Zap
+3. Update the Code step with new logic
+4. Save and test with one email first
+5. Verify it processes correctly
 
-4. **Stabilization (First Day)**
-   - Monitor throughput
-   - Check sentiment accuracy
-   - Verify department routing
+### 4. Monitor Initial Execution
 
-## Scaling Timeline
+After deployment:
+1. Send a test email from external account
+2. Verify it's classified correctly
+3. Check HubSpot for contact creation
+4. Confirm response email is received
+5. Monitor Zapier task history for errors
 
-- **Week 1**: 100-500 emails/day
-- **Week 2**: 500-1,000 emails/day
-- **Week 3-4**: 1,000-1,500 emails/day
-
-## Rollback Plan
+### 5. Rollback Procedures
 
 If issues occur:
+1. Go to Zapier Zap settings
+2. Revert to previous code version
+3. Check Zapier logs for error details
+4. Review and fix the issue
+5. Re-deploy after testing
 
-```bash
-git revert <commit-hash>
-git push origin main
-# Disable Zapier Zap
-# Restore from backup
-```
+## Production Monitoring
 
-## Success Metrics
+### Key Metrics to Monitor
 
-Target performance:
-- Email routing accuracy: >99%
-- Processing time: <2 seconds per email
-- System uptime: >99.9%
-- Zero unrouted emails
+- **Daily Email Volume:** Emails processed per day
+- **Classification Accuracy:** Percentage correctly classified
+- **Response Time:** Time from email to response
+- **Error Rate:** Failed executions vs. successful
+- **HubSpot Integration:** Contact creation success rate
 
-Monitor these via [MONITORING.md](MONITORING.md)
+### Automated Checks
+
+Zapier automatically:
+- Logs all task executions
+- Records errors and failures
+- Tracks performance metrics
+- Emails alerts for critical failures
+
+## Scaling Considerations
+
+### Current Capacity
+
+- **Tasks per month:** Zapier free tier limit
+- **Concurrent executions:** Single execution per email
+- **Email size limit:** 25MB (Zapier limit)
+- **Response latency:** 2-5 seconds typical
+
+### Scaling to Higher Volume
+
+If volume exceeds current capacity:
+1. Upgrade Zapier plan to increase task limits
+2. Consider batch processing
+3. Implement email queue if needed
+4. Add caching layer for classification rules
+5. Monitor HubSpot API rate limits
+
+## Troubleshooting Deployment Issues
+
+### Issue: Classification Not Working
+
+**Symptoms:** All emails get same priority
+1. Check Claude API key in Zapier environment
+2. Verify keywords.json is properly formatted
+3. Test API connection with sample request
+4. Check Zapier logs for specific errors
+
+### Issue: HubSpot Contacts Not Creating
+
+**Symptoms:** Medium/High emails don't create contacts
+1. Verify HubSpot API key is valid
+2. Check field mappings in hubspot-fields.json
+3. Confirm HubSpot portal ID matches
+4. Verify user has "Create contacts" permission
+5. Check for duplicate contact handling
+
+### Issue: Response Emails Not Sending
+
+**Symptoms:** Customers don't receive responses
+1. Check Gmail is authenticated in Zapier
+2. Verify "from" email address is correct
+3. Check spam filters
+4. Review email templates for issues
+5. Check Zapier task logs for failure reasons
+
+## Version Management
+
+Document changes with semantic versioning:
+- **Patch** (1.0.1): Bug fixes, minor updates
+- **Minor** (1.1.0): New features, improvements
+- **Major** (2.0.0): Breaking changes
+
+See CHANGELOG.md for version history.
+
+## Contact & Support
+
+For deployment issues or questions:
+- Check TROUBLESHOOTING.md for common problems
+- Review Zapier logs for specific errors
+- Verify all credentials and permissions
+- Test with sample emails before production emails
+
+## Additional Resources
+
+- [Zapier Zap URL](https://zapier.com/editor/377870671/draft/377871067/setup)
+- [Zapier Documentation](https://zapier.com/help)
+- [Anthropic Claude API Docs](https://console.anthropic.com/docs)
+- [HubSpot API Documentation](https://developers.hubspot.com/)

@@ -1,127 +1,107 @@
 {
-  "sentiment": {
-    "positive": [
-      "great",
-      "excellent",
-      "love",
-      "amazing",
-      "wonderful",
-      "perfect",
-      "happy",
-      "satisfied",
-      "impressed",
-      "thanks",
-      "appreciate",
-      "fantastic",
-      "outstanding",
-      "best",
-      "brilliant"
-    ],
-    "negative": [
-      "terrible",
-      "horrible",
-      "awful",
-      "bad",
-      "hate",
-      "angry",
-      "frustrated",
-      "disappointed",
-      "broken",
-      "useless",
-      "waste",
-      "ridiculous",
-      "pathetic",
-      "worst",
-      "disgusted"
-    ]
+  "urgencyKeywords": {
+    "critical": ["urgent", "asap", "emergency", "critical", "immediately", "now", "right now", "help!", "sos"],
+    "highPriority": ["urgent", "urgent!", "high priority", "priority", "rush", "quickly", "fast", "important", "very important"],
+    "normalPriority": ["help", "assist", "support", "question", "inquiry", "need", "have issue"],
+    "lowPriority": ["general inquiry", "fyi", "information", "curious", "just wondering", "maybe"]
   },
-  "intent": {
-    "sales": [
-      "purchase",
-      "buy",
-      "pricing",
-      "discount",
-      "quote",
-      "plans",
-      "upgrade",
-      "subscription",
-      "license",
-      "bulk",
-      "wholesale",
-      "reseller",
-      "partnership"
-    ],
-    "support": [
-      "help",
-      "support",
-      "issue",
-      "problem",
-      "bug",
-      "error",
-      "fix",
-      "broken",
-      "crash",
-      "not working",
-      "question",
-      "how to",
-      "tutorial",
-      "documentation"
-    ],
-    "billing": [
-      "invoice",
-      "payment",
-      "charge",
-      "refund",
-      "billing",
-      "subscription",
-      "cost",
-      "price",
-      "receipt",
-      "account",
-      "credit card",
-      "bill",
-      "transaction"
-    ],
-    "feedback": [
-      "feedback",
-      "suggestion",
-      "idea",
-      "feature",
-      "request",
-      "recommend",
-      "improve",
-      "better",
-      "opinion",
-      "review",
-      "rate",
-      "comment"
-    ]
+  "sentimentIndicators": {
+    "upset": ["upset", "angry", "frustrated", "disappointed", "furious", "mad", "hate", "terrible", "worst", "horrible", "awful"],
+    "urgentNeed": ["immediately", "asap", "now", "urgent", "cannot wait", "critical", "crisis", "emergency"],
+    "positive": ["thank", "appreciate", "grateful", "happy", "excellent", "amazing", "wonderful", "appreciate your"],
+    "problem": ["problem", "issue", "error", "bug", "not working", "broken", "failed", "wrong", "incorrect"]
   },
-  "urgency": [
-    "urgent",
-    "asap",
-    "immediately",
-    "emergency",
-    "critical",
-    "down",
-    "not working",
-    "broken",
-    "crash",
-    "severe",
-    "serious",
-    "important",
-    "production",
-    "outage",
-    "unable"
-  ],
-  "priority_boost": {
-    "database": 3,
-    "server": 3,
-    "api": 2,
-    "payment": 2,
-    "login": 2,
-    "security": 3,
-    "breach": 3,
-    "hacked": 3
-  }
+  "intentKeywords": {
+    "sales": {
+      "inquiry": ["buy", "purchase", "pricing", "cost", "how much", "price", "plans", "pricing plans", "upgrade", "subscription"],
+      "demo": ["demo", "demonstration", "try", "trial", "test", "show me"],
+      "weight": 1.0
+    },
+    "support": {
+      "help": ["help", "assist", "support", "issue", "problem", "error", "bug", "not working", "broken"],
+      "account": ["account", "login", "password", "reset", "cannot access"],
+      "feature": ["how to", "how do i", "where is", "how do you"],
+      "weight": 1.5
+    },
+    "billing": {
+      "charge": ["charge", "charged", "charge card", "unexpected charge"],
+      "invoice": ["invoice", "receipt", "bill", "billing"],
+      "refund": ["refund", "refund request", "return", "money back"],
+      "payment": ["payment", "payment failed", "payment issue"],
+      "subscription": ["subscription", "cancel subscription", "unsubscribe"],
+      "weight": 1.3
+    },
+    "feedback": {
+      "suggest": ["suggest", "suggestion", "feedback", "feature request", "improvement"],
+      "idea": ["idea", "idea for", "could you", "would be nice"],
+      "compliment": ["like", "love", "great job", "works well"],
+      "weight": 0.8
+    }
+  },
+  "spamPatterns": {
+    "autoReply": ["auto-reply", "automatic reply", "out of office", "i am out of office"],
+    "noreply": ["noreply", "no-reply", "do not reply"],
+    "marketing": ["unsubscribe", "marketing email", "newsletter", "promotional"],
+    "system": ["system generated", "automated", "bot message"]
+  },
+  "classificationRules": {
+    "HIGH": {
+      "minScore": 0.8,
+      "patterns": [
+        "upset OR frustrated OR angry",
+        "urgent OR asap OR emergency",
+        "problem AND (cannot|not working|broken)",
+        "billing AND (charge|refund|payment)",
+        "immediate"
+      ],
+      "requiresHumanReview": false
+    },
+    "MEDIUM": {
+      "minScore": 0.5,
+      "patterns": [
+        "help OR support OR assist",
+        "how to OR how do i",
+        "question",
+        "account issue",
+        "feature inquiry"
+      ],
+      "requiresHumanReview": false
+    },
+    "LOW": {
+      "minScore": 0.0,
+      "patterns": [
+        "general inquiry",
+        "feedback",
+        "pricing question",
+        "general question",
+        "just wondering"
+      ],
+      "requiresHumanReview": false
+    }
+  },
+  "customPriorities": {
+    "overridingKeywords": {
+      "HIGH": [
+        "payment failed",
+        "account hacked",
+        "security breach",
+        "data loss",
+        "cannot access account",
+        "urgent billing"
+      ],
+      "LOW": [
+        "unsubscribe",
+        "marketing preference",
+        "just checking"
+      ]
+    }
+  },
+  "excludeFromClassification": [
+    "zapiermail.com",
+    "noreply@",
+    "no-reply@",
+    "bounce@",
+    "mailer-daemon@",
+    "postmaster@"
+  ]
 }

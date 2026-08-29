@@ -1,63 +1,97 @@
 {
-  "routing_rules": {
-    "high_priority": {
-      "email": "urgent@company.com",
-      "prefix": "[URGENT]",
-      "sla_hours": 1,
-      "description": "Critical issues requiring immediate attention"
+  "classification": {
+    "model": "claude-3-5-sonnet-20241022",
+    "maxTokens": 500,
+    "temperature": 0.3,
+    "topP": 1.0
+  },
+  "priorities": {
+    "HIGH": {
+      "scoreThreshold": 0.8,
+      "description": "Urgent customer issues requiring immediate attention",
+      "responseTime": "30 minutes",
+      "actions": ["immediate_response", "create_hubspot_contact", "internal_alert"]
     },
-    "medium_priority": {
-      "email": "support@company.com",
-      "prefix": "[SUPPORT]",
-      "sla_hours": 4,
-      "description": "Standard support requests"
+    "MEDIUM": {
+      "scoreThreshold": 0.5,
+      "description": "Normal customer inquiries",
+      "responseTime": "2 hours",
+      "actions": ["create_hubspot_contact", "send_response", "track_inquiry"]
     },
-    "low_priority": {
-      "email": "general@company.com",
-      "prefix": "[INFO]",
-      "sla_hours": 24,
-      "description": "General inquiries and feedback"
+    "LOW": {
+      "scoreThreshold": 0.0,
+      "description": "General informational requests",
+      "responseTime": "24 hours",
+      "actions": ["send_faq_response", "track_inquiry"]
     }
   },
-  "sales": {
-    "email": "sales@company.com",
-    "prefix": "[SALES]",
-    "sla_hours": 2,
-    "escalation_hours": 4
+  "sentiment": {
+    "positive": {
+      "keywords": ["thank", "appreciate", "grateful", "excellent", "amazing"],
+      "weightMultiplier": 0.8
+    },
+    "neutral": {
+      "keywords": ["inquiry", "question", "information", "help"],
+      "weightMultiplier": 1.0
+    },
+    "negative": {
+      "keywords": ["upset", "angry", "frustrated", "disappointed", "problem"],
+      "weightMultiplier": 1.5
+    }
   },
-  "support": {
-    "email": "support@company.com",
-    "prefix": "[SUPPORT]",
-    "sla_hours": 1,
-    "escalation_hours": 2
+  "intent": {
+    "sales": {
+      "keywords": ["buy", "pricing", "plans", "upgrade", "demo"],
+      "priority": "MEDIUM"
+    },
+    "support": {
+      "keywords": ["help", "issue", "problem", "bug", "error"],
+      "priority": "HIGH"
+    },
+    "billing": {
+      "keywords": ["charge", "invoice", "payment", "refund", "subscription"],
+      "priority": "HIGH"
+    },
+    "feedback": {
+      "keywords": ["feedback", "suggest", "idea", "improve"],
+      "priority": "LOW"
+    },
+    "other": {
+      "keywords": [],
+      "priority": "MEDIUM"
+    }
   },
-  "billing": {
-    "email": "billing@company.com",
-    "prefix": "[BILLING]",
-    "sla_hours": 4,
-    "escalation_hours": 8
-  },
-  "feedback": {
-    "email": "feedback@company.com",
-    "prefix": "[FEEDBACK]",
-    "sla_hours": 24,
-    "escalation_hours": 48
-  },
-  "general": {
-    "email": "info@company.com",
-    "prefix": "[INFO]",
-    "sla_hours": 24,
-    "escalation_hours": 48
-  },
-  "logging": {
+  "spam_filter": {
     "enabled": true,
-    "log_file": "logs/routing.log",
-    "error_file": "logs/errors.log",
-    "retention_days": 30
+    "blocklist": [
+      "zapiermail.com",
+      "noreply@",
+      "no-reply@",
+      "auto-confirm@"
+    ],
+    "maxBodyLength": 50000
   },
-  "performance": {
-    "max_processing_time_seconds": 10,
-    "warning_threshold_seconds": 5,
-    "batch_size": 100
-  }
+  "response_templates": {
+    "HIGH": {
+      "subject": "Urgent: Your inquiry - Immediate support",
+      "greeting": "Hi there,",
+      "body": "Thank you for reaching out! We've marked your inquiry as HIGH PRIORITY. Our team will respond within 30 minutes.",
+      "closing": "Best regards, Support Team"
+    },
+    "MEDIUM": {
+      "subject": "Re: Your inquiry",
+      "greeting": "Hi there,",
+      "body": "Thank you for contacting us. Your inquiry has been received and assigned to our support team. We'll respond within 2 hours.",
+      "closing": "Best regards, Support Team"
+    },
+    "LOW": {
+      "subject": "FAQ: Common questions",
+      "greeting": "Hi there,",
+      "body": "Thank you for your message. Please check our FAQ for quick answers. If you need more help, we're here for you.",
+      "closing": "Best regards, Support Team"
+    }
+  },
+  "timeout": 5000,
+  "retryAttempts": 3,
+  "retryDelayMs": 1000
 }

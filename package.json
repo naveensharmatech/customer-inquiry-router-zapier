@@ -1,26 +1,41 @@
 {
   "name": "customer-inquiry-router-zapier",
   "version": "1.0.0",
-  "description": "AI-powered email router with sentiment analysis, intent detection, and smart routing to teams",
-  "main": "code/email-classifier.js",
+  "description": "AI-powered customer inquiry router using Zapier, Claude API, and HubSpot integration",
+  "main": "index.js",
   "scripts": {
     "test": "node tests/test-runner.js",
-    "lint": "eslint code/**/*.js",
-    "format": "prettier --write '**/*.{js,json,md}'",
-    "docs": "echo 'See docs/ folder for documentation'"
+    "test:high": "node tests/test-runner.js high",
+    "test:medium": "node tests/test-runner.js medium",
+    "test:low": "node tests/test-runner.js low",
+    "start": "echo 'This project runs on Zapier - no local server needed'",
+    "lint": "eslint .",
+    "dev": "NODE_ENV=development npm run test"
   },
-  "keywords": ["zapier", "automation", "email", "ai", "routing", "hubspot", "javascript", "workflow"],
-  "author": "Naveen Sharma <contact.naveensharma@gmail.com>",
+  "keywords": [
+    "zapier",
+    "automation",
+    "customer-inquiry",
+    "email-routing",
+    "claude-api",
+    "hubspot",
+    "gmail"
+  ],
+  "author": "Naveen Sharma",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/naveensharmatech/customer-inquiry-router-zapier"
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "axios": "^1.4.0"
   },
-  "bugs": {
-    "url": "https://github.com/naveensharmatech/customer-inquiry-router-zapier/issues"
+  "devDependencies": {
+    "eslint": "^8.44.0",
+    "jest": "^29.5.0"
   },
-  "homepage": "https://github.com/naveensharmatech/customer-inquiry-router-zapier#readme",
   "engines": {
     "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/naveensharmatech/customer-inquiry-router-zapier.git"
   }
 }

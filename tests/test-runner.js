@@ -1,169 +1,166 @@
 /**
- * Test Runner
- * Automated test suite for email classification accuracy
+ * Test Runner - Run test cases against classifiers
+ * Usage: node test-runner.js [priority] [classifier]
+ * 
+ * Examples:
+ *   node test-runner.js              # Run all tests with keyword classifier
+ *   node test-runner.js high         # Run HIGH priority tests only
+ *   node test-runner.js medium       # Run MEDIUM priority tests only
+ *   node test-runner.js low          # Run LOW priority tests only
+ *   node test-runner.js all claude   # Run all tests with Claude classifier
  */
 
-const classifier = require('../code/email-classifier');
-const testCases = require('./test-cases.json');
+const fs = require('fs');
+const path = require('path');
 
-const colors = {
-  reset: '\x1b[0m',
-  green: '\x1b[32m',
-  red: '\x1b[31m',
-  yellow: '\x1b[33m',
-  blue: '\x1b[34m'
-};
+// Load test cases
+const testCasesPath = path.join(__dirname, 'test-cases.json');
+const testCasesData = JSON.parse(fs.readFileSync(testCasesPath, 'utf8'));
+const testCases = testCasesData.testCases;
+
+// Load classifiers
+const emailClassifier = require('../code/email-classifier');
+const utils = require('../code/utils');
 
 /**
- * Run test suite
+ * Run a single test case
+ * @param {object} testCase - Test case to run
+ * @returns {object} - Test result with passed/failed status
  */
-function runTests() {
-  console.log(`\n${colors.blue}Running Email Classification Tests${colors.reset}`);
-  console.log(`${colors.blue}${'='.repeat(50)}${colors.reset}\n`);
-  
-  let passed = 0;
-  let failed = 0;
-  const results = [];
-  
-  testCases.test_cases.forEach((testCase, index) => {
-    const result = runSingleTest(testCase);
-    
-    if (result.passed) {
-      passed++;
-      console.log(`${colors.green}✓${colors.reset} Test ${testCase.id}: ${testCase.name}`);
-    } else {
-      failed++;
-      console.log(`${colors.red}✗${colors.reset} Test ${testCase.id}: ${testCase.name}`);
-      console.log(`  ${colors.red}Expected: ${JSON.stringify(result.expected)}${colors.reset}`);
-      console.log(`  ${colors.red}Got: ${JSON.stringify(result.actual)}${colors.reset}`);
-    }
-    
-    results.push({
-      test_id: testCase.id,
-      passed: result.passed,
-      name: testCase.name
-    });
-  });
-  
-  // Print summary
-  console.log(`\n${colors.blue}${'='.repeat(50)}${colors.reset}`);
-  console.log(`${colors.blue}Test Results${colors.reset}`);
-  console.log(`${colors.blue}${'='.repeat(50)}${colors.reset}\n`);
-  
-  const total = passed + failed;
-  const percentage = total > 0 ? ((passed / total) * 100).toFixed(1) : 0;
-  
-  if (passed === total) {
-    console.log(`${colors.green}✓ All tests passed: ${passed}/${total} (${percentage}%)${colors.reset}\n`);
-  } else {
-    console.log(`${colors.red}✗ Tests failed: ${failed}/${total}${colors.reset}`);
-    console.log(`${colors.green}✓ Tests passed: ${passed}/${total} (${percentage}%)${colors.reset}\n`);
-  }
-  
-  // Print accuracy targets
-  console.log(`${colors.yellow}Target Accuracy Metrics:${colors.reset}`);
-  console.log(`  Sentiment Analysis: ${testCases.accuracy_targets.sentiment_analysis}%`);
-  console.log(`  Intent Classification: ${testCases.accuracy_targets.intent_classification}%`);
-  console.log(`  Priority Scoring: ${testCases.accuracy_targets.priority_scoring}%`);
-  console.log(`  Routing Accuracy: ${testCases.accuracy_targets.routing_accuracy}%\n`);
-  
-  return {
-    passed,
-    failed,
-    total,
-    percentage,
-    results
-  };
-}
-
-/**
- * Run single test case
- * @param {object} testCase - Test case configuration
- * @returns {object} Test result with passed flag and actual/expected values
- */
-function runSingleTest(testCase) {
+function runTestCase(testCase) {
   try {
-    const result = classifier.classifyEmail(testCase.body, testCase.subject);
-    
-    // Compare results
-    const sentimentMatch = result.sentiment === testCase.expected.sentiment;
-    const intentMatch = result.intent === testCase.expected.intent;
-    const priorityMatch = result.priority === testCase.expected.priority;
-    const departmentMatch = result.recommended_department.department === testCase.expected.department;
-    
-    const passed = sentimentMatch && intentMatch && priorityMatch && departmentMatch;
+    const result = emailClassifier.classify({
+      subject: testCase.subject,
+      body: testCase.body,
+      from: 'test@example.com'
+    });
+
+    const passed = result.priority === testCase.expectedPriority;
     
     return {
-      passed,
-      expected: {
-        sentiment: testCase.expected.sentiment,
-        intent: testCase.expected.intent,
-        priority: testCase.expected.priority,
-        department: testCase.expected.department
-      },
-      actual: {
-        sentiment: result.sentiment,
-        intent: result.intent,
-        priority: result.priority,
-        department: result.recommended_department.department
-      }
+      id: testCase.id,
+      name: testCase.name,
+      passed: passed,
+      expectedPriority: testCase.expectedPriority,
+      actualPriority: result.priority,
+      confidence: result.confidence,
+      sentiment: result.sentiment,
+      intent: result.intent,
+      reason: testCase.description
     };
   } catch (error) {
-    console.error(`Error running test: ${error.message}`);
     return {
+      id: testCase.id,
+      name: testCase.name,
       passed: false,
-      error: error.message
+      error: error.message,
+      reason: testCase.description
     };
   }
 }
 
 /**
- * Benchmark email classification performance
+ * Filter test cases by priority
+ * @param {array} cases - All test cases
+ * @param {string} priority - Filter priority (HIGH, MEDIUM, LOW, or 'all')
+ * @returns {array} - Filtered test cases
  */
-function benchmarkPerformance() {
-  console.log(`\n${colors.blue}Performance Benchmark${colors.reset}`);
-  console.log(`${colors.blue}${'='.repeat(50)}${colors.reset}\n`);
+function filterByPriority(cases, priority) {
+  if (priority === 'all' || !priority) return cases;
   
-  const times = [];
-  const iterations = 100;
-  
-  for (let i = 0; i < iterations; i++) {
-    const testCase = testCases.test_cases[i % testCases.test_cases.length];
-    
-    const startTime = process.hrtime.bigint();
-    classifier.classifyEmail(testCase.body, testCase.subject);
-    const endTime = process.hrtime.bigint();
-    
-    const timeMs = Number(endTime - startTime) / 1000000;
-    times.push(timeMs);
-  }
-  
-  const avgTime = times.reduce((a, b) => a + b, 0) / times.length;
-  const maxTime = Math.max(...times);
-  const minTime = Math.min(...times);
-  
-  console.log(`Average processing time: ${avgTime.toFixed(2)}ms`);
-  console.log(`Min processing time: ${minTime.toFixed(2)}ms`);
-  console.log(`Max processing time: ${maxTime.toFixed(2)}ms`);
-  console.log(`Iterations: ${iterations}\n`);
-  
-  if (avgTime <= testCases.performance_targets.avg_processing_time_ms) {
-    console.log(`${colors.green}✓ Performance target met (${avgTime.toFixed(2)}ms <= ${testCases.performance_targets.avg_processing_time_ms}ms)${colors.reset}\n`);
-  } else {
-    console.log(`${colors.red}✗ Performance target not met (${avgTime.toFixed(2)}ms > ${testCases.performance_targets.avg_processing_time_ms}ms)${colors.reset}\n`);
-  }
+  return cases.filter(testCase => 
+    testCase.expectedPriority === priority.toUpperCase()
+  );
 }
 
-// Run tests if executed directly
-if (require.main === module) {
-  const results = runTests();
-  benchmarkPerformance();
+/**
+ * Generate test report
+ * @param {array} results - Test results
+ * @returns {string} - Formatted report
+ */
+function generateReport(results) {
+  const passed = results.filter(r => r.passed).length;
+  const total = results.length;
+  const passRate = ((passed / total) * 100).toFixed(2);
+
+  let report = '\n' + '='.repeat(70) + '\n';
+  report += 'TEST RESULTS REPORT\n';
+  report += '='.repeat(70) + '\n\n';
+
+  results.forEach((result, index) => {
+    const status = result.passed ? '✅ PASS' : '❌ FAIL';
+    report += `${index + 1}. ${status} - ${result.name}\n`;
+    report += `   Expected: ${result.expectedPriority}\n`;
+    report += `   Actual: ${result.actualPriority || 'ERROR'}\n`;
+    
+    if (result.error) {
+      report += `   Error: ${result.error}\n`;
+    } else {
+      report += `   Confidence: ${(result.confidence * 100).toFixed(0)}%\n`;
+      report += `   Sentiment: ${result.sentiment}\n`;
+      report += `   Intent: ${result.intent}\n`;
+    }
+    report += '\n';
+  });
+
+  report += '='.repeat(70) + '\n';
+  report += `SUMMARY: ${passed}/${total} tests passed (${passRate}%)\n`;
+  report += '='.repeat(70) + '\n';
+
+  return report;
+}
+
+/**
+ * Main test execution
+ */
+function main() {
+  const args = process.argv.slice(2);
+  const priorityFilter = args[0] || 'all';
+  const classifier = args[1] || 'keyword';
+
+  console.log('\n🧪 Running tests...\n');
+  console.log(`Priority filter: ${priorityFilter.toUpperCase()}`);
+  console.log(`Classifier: ${classifier}\n`);
+
+  // Filter test cases
+  const filteredTests = filterByPriority(testCases, priorityFilter);
   
-  process.exit(results.failed > 0 ? 1 : 0);
+  if (filteredTests.length === 0) {
+    console.error(`❌ No test cases found for priority: ${priorityFilter}`);
+    process.exit(1);
+  }
+
+  console.log(`Found ${filteredTests.length} test case(s) to run...\n`);
+
+  // Run tests
+  const results = filteredTests.map(testCase => {
+    process.stdout.write(`Running test ${testCase.id}...`);
+    const result = runTestCase(testCase);
+    console.log(result.passed ? ' ✓' : ' ✗');
+    return result;
+  });
+
+  // Generate and display report
+  const report = generateReport(results);
+  console.log(report);
+
+  // Save report to file
+  const reportPath = path.join(__dirname, 'test-report.txt');
+  fs.writeFileSync(reportPath, report);
+  console.log(`Report saved to: ${reportPath}\n`);
+
+  // Exit with appropriate code
+  const passedAll = results.every(r => r.passed);
+  process.exit(passedAll ? 0 : 1);
+}
+
+// Run if executed directly
+if (require.main === module) {
+  main();
 }
 
 module.exports = {
-  runTests,
-  runSingleTest,
-  benchmarkPerformance
+  runTestCase,
+  filterByPriority,
+  generateReport
 };

@@ -1,0 +1,166 @@
+{
+  "mapping": {
+    "email": {
+      "zapierField": "from",
+      "hubspotField": "email",
+      "required": true,
+      "type": "string",
+      "description": "Customer email address"
+    },
+    "firstName": {
+      "zapierField": "name_first",
+      "hubspotField": "firstname",
+      "required": false,
+      "type": "string",
+      "description": "Customer first name (extracted from email or defaulted)",
+      "defaultValue": "Customer"
+    },
+    "lastName": {
+      "zapierField": "name_last",
+      "hubspotField": "lastname",
+      "required": false,
+      "type": "string",
+      "description": "Customer last name (if available)",
+      "defaultValue": ""
+    },
+    "phone": {
+      "zapierField": "phone",
+      "hubspotField": "phone",
+      "required": false,
+      "type": "string",
+      "description": "Customer phone number (if provided in email)"
+    },
+    "company": {
+      "zapierField": "company",
+      "hubspotField": "company",
+      "required": false,
+      "type": "string",
+      "description": "Customer company (if mentioned in email)"
+    },
+    "priority": {
+      "zapierField": "priority",
+      "hubspotField": "customfield_priority",
+      "required": false,
+      "type": "string",
+      "description": "Email priority classification: HIGH, MEDIUM, or LOW",
+      "allowedValues": ["HIGH", "MEDIUM", "LOW"]
+    },
+    "sentiment": {
+      "zapierField": "sentiment",
+      "hubspotField": "customfield_sentiment",
+      "required": false,
+      "type": "string",
+      "description": "Email sentiment: POSITIVE, NEUTRAL, or NEGATIVE",
+      "allowedValues": ["POSITIVE", "NEUTRAL", "NEGATIVE"]
+    },
+    "intent": {
+      "zapierField": "intent",
+      "hubspotField": "customfield_intent",
+      "required": false,
+      "type": "string",
+      "description": "Inferred customer intent from email",
+      "allowedValues": ["sales", "support", "billing", "feedback", "other"]
+    },
+    "inquiryDate": {
+      "zapierField": "timestamp",
+      "hubspotField": "customfield_inquiry_date",
+      "required": false,
+      "type": "date",
+      "description": "Date of inquiry"
+    },
+    "inquirySubject": {
+      "zapierField": "subject",
+      "hubspotField": "customfield_inquiry_subject",
+      "required": false,
+      "type": "string",
+      "description": "Original email subject line"
+    },
+    "inquiryBody": {
+      "zapierField": "body",
+      "hubspotField": "customfield_inquiry_body",
+      "required": false,
+      "type": "text",
+      "description": "Email body content (first 500 chars)",
+      "maxLength": 500
+    },
+    "source": {
+      "zapierField": "static_value",
+      "hubspotField": "customfield_source",
+      "required": false,
+      "type": "string",
+      "description": "Lead source",
+      "defaultValue": "Zapier Email Router"
+    },
+    "status": {
+      "zapierField": "static_value",
+      "hubspotField": "customfield_status",
+      "required": false,
+      "type": "string",
+      "description": "Contact status",
+      "defaultValue": "New"
+    }
+  },
+  "customFields": {
+    "customfield_priority": {
+      "name": "Priority",
+      "type": "enumeration",
+      "options": ["HIGH", "MEDIUM", "LOW"],
+      "description": "Email priority level determined by AI classification"
+    },
+    "customfield_sentiment": {
+      "name": "Sentiment",
+      "type": "enumeration",
+      "options": ["POSITIVE", "NEUTRAL", "NEGATIVE"],
+      "description": "Customer sentiment detected from email"
+    },
+    "customfield_intent": {
+      "name": "Intent",
+      "type": "enumeration",
+      "options": ["sales", "support", "billing", "feedback", "other"],
+      "description": "Primary intent of the customer inquiry"
+    },
+    "customfield_inquiry_date": {
+      "name": "Inquiry Date",
+      "type": "date",
+      "description": "When the customer inquiry was received"
+    },
+    "customfield_inquiry_subject": {
+      "name": "Inquiry Subject",
+      "type": "text",
+      "description": "Original email subject line"
+    },
+    "customfield_inquiry_body": {
+      "name": "Inquiry Body",
+      "type": "textarea",
+      "description": "Email body content"
+    },
+    "customfield_source": {
+      "name": "Source",
+      "type": "text",
+      "description": "Where the contact came from"
+    },
+    "customfield_status": {
+      "name": "Status",
+      "type": "text",
+      "description": "Contact status"
+    }
+  },
+  "deduplication": {
+    "enabled": true,
+    "field": "email",
+    "behavior": "update",
+    "description": "If contact exists with same email, update rather than create duplicate"
+  },
+  "apiSettings": {
+    "retryAttempts": 3,
+    "retryDelayMs": 1000,
+    "timeout": 10000,
+    "errorHandling": "log_and_continue"
+  },
+  "notes": [
+    "Replace 'customfield_priority', 'customfield_sentiment', etc. with actual custom field IDs from your HubSpot portal",
+    "Custom fields must exist in HubSpot before mapping them here",
+    "Use HubSpot API to get custom field IDs: GET /crm/v3/objects/contacts/properties",
+    "Field mapping can be customized per your HubSpot setup"
+  ]
+}

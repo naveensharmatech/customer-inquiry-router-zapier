@@ -1,127 +1,89 @@
-# Contributing Guide
+# Contributing to Customer Inquiry Router Zap
 
-Guidelines for contributing to Customer Inquiry Router.
+Thank you for your interest in contributing! This document provides guidelines and instructions for contributing to this project.
 
-## Development Setup
+## Code of Conduct
 
+Please be respectful and constructive in all interactions. We're building a welcoming community for automation enthusiasts and developers.
+
+## How to Contribute
+
+### Reporting Issues
+
+Found a bug? Have a suggestion? Please open an issue with:
+- Clear description of the problem
+- Steps to reproduce (if applicable)
+- Your environment details
+- Screenshots or logs if helpful
+
+### Improving Documentation
+
+Documentation improvements are always welcome:
+- Clarifications to existing docs
+- Additional examples
+- Better explanations of complex concepts
+- Fixes for typos or grammar
+
+To contribute documentation:
 1. Fork the repository
-2. Clone your fork
-3. Create a feature branch
+2. Create a branch for your changes
+3. Make your edits
+4. Submit a pull request
 
-```bash
-git clone https://github.com/your-username/customer-inquiry-router-zapier.git
-cd customer-inquiry-router-zapier
-git checkout -b feature/your-feature-name
-```
+### Testing Improvements
 
-4. Install dependencies
+Help expand our test coverage:
+- New test cases for edge cases
+- Additional sample emails for different scenarios
+- Performance testing documentation
+- Integration testing examples
 
-```bash
-npm install
-```
+### Code Contributions
 
-## Development Workflow
+For significant code changes:
+1. Open an issue first to discuss your idea
+2. Fork the repository
+3. Create a feature branch: `git checkout -b feature/your-feature`
+4. Commit your changes: `git commit -am 'Add your feature'`
+5. Push to the branch: `git push origin feature/your-feature`
+6. Submit a pull request
 
-### Code Style
+### Development Setup
 
-- Use ESLint: `npm run lint`
-- Format with Prettier: `npm run format`
-- Use 2-space indentation
-- Add comments for complex logic
+1. Clone the repository
+2. Copy `.env.example` to `.env` and fill in your credentials
+3. Install dependencies: `npm install`
+4. Run tests: `npm test`
 
-### Testing
+## Testing Your Changes
 
-Before submitting:
+Before submitting a pull request:
+- Run all tests: `npm test`
+- Test with sample emails of different priorities
+- Verify HubSpot integration if your changes affect it
+- Check that response emails are generated correctly
 
-```bash
-npm test
-```
+## Commit Message Guidelines
 
-All tests must pass (100% success rate required).
+Use clear, descriptive commit messages:
+- `fix: Resolve email parsing issue`
+- `feat: Add support for custom priority rules`
+- `docs: Update troubleshooting guide`
+- `test: Add test cases for edge cases`
 
-### Making Changes
+## Pull Request Process
 
-1. Make your changes in a feature branch
-2. Commit with clear messages
-3. Push to your fork
-4. Create a Pull Request
-
-## Commit Message Format
-
-```
-[Type]: Brief description (50 chars max)
-
-Longer explanation of why this change is needed (optional).
-- Point 1
-- Point 2
-
-Closes #issue-number
-```
-
-Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
-
-Example:
-```
-feat: Add support for priority escalation
-
-- Escalate high-priority emails after 2 hours
-- Send notification to manager
-- Add escalation config option
-
-Closes #42
-```
-
-## PR Process
-
-1. Ensure all tests pass
-2. Add tests for new features
-3. Update documentation
-4. Keep commits clean and logical
-5. Respond to review feedback
-
-## Code Standards
-
-### JavaScript Best Practices
-
-- Use `const` by default, `let` if reassignment needed
-- Avoid `var`
-- Use async/await over callbacks
-- Return early for error handling
-- Add JSDoc comments for functions
-
-Example:
-
-```javascript
-/**
- * Analyzes email sentiment
- * @param {string} emailBody - Email content
- * @returns {object} Sentiment analysis result
- */
-async function analyzeSentiment(emailBody) {
-  if (!emailBody) {
-    throw new Error('Email body required');
-  }
-  // Implementation
-  return result;
-}
-```
-
-### Testing Standards
-
-- Test all public functions
-- Aim for >90% code coverage
-- Test edge cases and errors
-- Use descriptive test names
+1. Update documentation if needed
+2. Add test cases for new functionality
+3. Ensure all tests pass
+4. Provide clear description of changes
+5. Link to related issues if applicable
 
 ## Questions?
 
-- Check [FAQ.md](FAQ.md)
-- Review existing issues
-- Open a discussion
-- Contact maintainers
-
-## Contributor Agreement
-
-By submitting a PR, you agree your contribution will be licensed under the same license as this project.
+Feel free to:
+- Open a discussion issue
+- Check existing issues for similar questions
+- Review the troubleshooting guide in TROUBLESHOOTING.md
 
 Thank you for contributing!

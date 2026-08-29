@@ -1,25 +1,16 @@
-Subject: Pricing question for enterprise plan
-From: prospect@example.com
-To: info@company.com
-Date: 2024-01-15T14:20:00Z
+Subject: General inquiry - Business hours and contact info
+From: random-person@email.com
 
-Hello,
+Hi there,
 
-I'm a new prospect interested in learning more about your service. I've read through your website and the pricing page shows three plans: Starter, Professional, and Enterprise.
+I'm just getting some basic information about your company:
 
-I have a few questions about the Enterprise plan:
+1. What are your business hours?
+2. Do you support international customers?
+3. What countries do you currently serve?
+4. Is your service available in Europe?
 
-1. What is the pricing for 500 users?
-2. Is there a discount for annual billing?
-3. Does the enterprise plan include custom integrations?
-4. What kind of support comes with the enterprise plan?
-5. Can we get a demo of the platform?
-
-We're currently evaluating several solutions and would like to compare your pricing and features with competitors.
-
-Please let me know the best next steps to get more information.
+No rush on the response. Just gathering information for now.
 
 Thanks!
-John Smith
-Procurement Manager
-ABC Corporation
+Michael Chen

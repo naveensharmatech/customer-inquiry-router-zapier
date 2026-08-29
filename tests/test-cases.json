@@ -1,136 +1,110 @@
 {
-  "test_suite": "Customer Inquiry Router - Email Classification Tests",
-  "version": "1.0.0",
-  "test_cases": [
+  "testCases": [
     {
       "id": 1,
-      "name": "High Priority - Production Database Down",
-      "subject": "URGENT: Production Database Down",
-      "body": "Our production database is completely down and affecting all users. We need immediate help!",
-      "expected": {
-        "sentiment": "negative",
-        "intent": "support",
-        "priority": "high",
-        "department": "support"
-      }
+      "name": "Urgent billing issue - HIGH",
+      "subject": "URGENT: Unexpected charge on my account!",
+      "body": "I was charged $150 for something I didn't subscribe to. This is urgent - please refund immediately! I'm very upset about this.",
+      "expectedPriority": "HIGH",
+      "expectedIntent": "billing",
+      "expectedSentiment": "NEGATIVE",
+      "description": "Clear urgent billing issue with upset customer"
     },
     {
       "id": 2,
-      "name": "High Priority - Security Breach",
-      "subject": "URGENT: Potential Security Breach",
-      "body": "We detected unauthorized access to our account. This is critical and needs immediate investigation.",
-      "expected": {
-        "sentiment": "negative",
-        "intent": "support",
-        "priority": "high",
-        "department": "support"
-      }
+      "name": "Account access problem - HIGH",
+      "subject": "HELP: Cannot access my account",
+      "body": "I've been locked out of my account for 3 hours now. I need to access it urgently. This is critical for my business. Please help immediately!",
+      "expectedPriority": "HIGH",
+      "expectedIntent": "support",
+      "expectedSentiment": "NEGATIVE",
+      "description": "Urgent support issue with access problem"
     },
     {
       "id": 3,
-      "name": "Medium Priority - Account Help",
-      "subject": "Help with my account login",
-      "body": "I'm unable to login to my account. Can someone help me reset my password?",
-      "expected": {
-        "sentiment": "neutral",
-        "intent": "support",
-        "priority": "medium",
-        "department": "support"
-      }
+      "name": "Feature request - LOW",
+      "subject": "Suggestion for new feature",
+      "body": "Hello, I have a feature suggestion. It would be nice if the dashboard could display more metrics. This is just an idea for future improvement.",
+      "expectedPriority": "LOW",
+      "expectedIntent": "feedback",
+      "expectedSentiment": "POSITIVE",
+      "description": "General feedback and feature request"
     },
     {
       "id": 4,
-      "name": "Medium Priority - Billing Issue",
-      "subject": "Unexpected charge on my account",
-      "body": "I was charged twice for my subscription this month. I need this corrected immediately.",
-      "expected": {
-        "sentiment": "negative",
-        "intent": "billing",
-        "priority": "medium",
-        "department": "billing"
-      }
+      "name": "Pricing inquiry - MEDIUM",
+      "subject": "Questions about your pricing plans",
+      "body": "Hi, I'm interested in upgrading my account. Can you tell me more about your premium plan options and pricing? I'd like to know if there are any discounts available.",
+      "expectedPriority": "MEDIUM",
+      "expectedIntent": "sales",
+      "expectedSentiment": "NEUTRAL",
+      "description": "Sales inquiry about pricing"
     },
     {
       "id": 5,
-      "name": "Medium Priority - Pricing Inquiry",
-      "subject": "Questions about pricing plans",
-      "body": "Hi, I'm interested in your enterprise plan. Can you provide a quote for 100 users?",
-      "expected": {
-        "sentiment": "neutral",
-        "intent": "sales",
-        "priority": "medium",
-        "department": "sales"
-      }
+      "name": "General support question - MEDIUM",
+      "subject": "How do I reset my password?",
+      "body": "Hi, I need help resetting my password. I haven't logged in for a while and I can't remember it. Can you walk me through the process?",
+      "expectedPriority": "MEDIUM",
+      "expectedIntent": "support",
+      "expectedSentiment": "NEUTRAL",
+      "description": "Regular support question"
     },
     {
       "id": 6,
-      "name": "Low Priority - Feedback",
-      "subject": "Feature Request: Dark Mode",
-      "body": "I would love to see a dark mode in your application. It would be easier on the eyes at night.",
-      "expected": {
-        "sentiment": "positive",
-        "intent": "feedback",
-        "priority": "low",
-        "department": "feedback"
-      }
+      "name": "Angry customer - HIGH",
+      "subject": "Worst experience ever!",
+      "body": "I'm extremely frustrated! Your service has been down all day and nobody is responding. I've tried contacting support 5 times. This is unacceptable! I'm considering canceling my subscription.",
+      "expectedPriority": "HIGH",
+      "expectedIntent": "support",
+      "expectedSentiment": "NEGATIVE",
+      "description": "Very upset customer with service issue"
     },
     {
       "id": 7,
-      "name": "Low Priority - Pricing Information",
-      "subject": "Pricing inquiry",
-      "body": "What are your pricing options for small businesses?",
-      "expected": {
-        "sentiment": "neutral",
-        "intent": "sales",
-        "priority": "low",
-        "department": "sales"
-      }
+      "name": "FAQ type question - LOW",
+      "subject": "Do you offer international shipping?",
+      "body": "Hi, I'm curious whether your service is available in Europe. Can you let me know? Thanks!",
+      "expectedPriority": "LOW",
+      "expectedIntent": "other",
+      "expectedSentiment": "NEUTRAL",
+      "description": "General informational question"
     },
     {
       "id": 8,
-      "name": "Low Priority - General Inquiry",
-      "subject": "Just a quick question",
-      "body": "I'm wondering if you have a blog about best practices. Thanks!",
-      "expected": {
-        "sentiment": "neutral",
-        "intent": "other",
-        "priority": "low",
-        "department": "general"
-      }
+      "name": "Subscription issue - HIGH",
+      "subject": "Cancel my subscription immediately",
+      "body": "I need to cancel my subscription right now. My payment method is invalid and I'm being charged. This is urgent. Please process the cancellation today.",
+      "expectedPriority": "HIGH",
+      "expectedIntent": "billing",
+      "expectedSentiment": "NEGATIVE",
+      "description": "Urgent billing and subscription issue"
     },
     {
       "id": 9,
-      "name": "Positive Feedback",
-      "subject": "Great product, love your service!",
-      "body": "I just wanted to say how much I appreciate your excellent support team. They're fantastic!",
-      "expected": {
-        "sentiment": "positive",
-        "intent": "feedback",
-        "priority": "low",
-        "department": "feedback"
-      }
+      "name": "Product question - MEDIUM",
+      "subject": "Question about your product features",
+      "body": "Hi, I'm evaluating your product for our team. Can you tell me if it supports integration with Slack? Also, what's your data retention policy? Thanks!",
+      "expectedPriority": "MEDIUM",
+      "expectedIntent": "sales",
+      "expectedSentiment": "NEUTRAL",
+      "description": "Sales inquiry with product questions"
     },
     {
       "id": 10,
-      "name": "Critical - API Outage",
-      "subject": "URGENT: API is down - production impacted",
-      "body": "Your API is completely down. Our application cannot function without it. This is a critical issue!",
-      "expected": {
-        "sentiment": "negative",
-        "intent": "support",
-        "priority": "high",
-        "department": "support"
-      }
+      "name": "Positive feedback - LOW",
+      "subject": "Thank you for your great service!",
+      "body": "I just wanted to say thank you for your excellent customer service. Your team helped me solve my problem quickly. I really appreciate it! Keep up the great work.",
+      "expectedPriority": "LOW",
+      "expectedIntent": "feedback",
+      "expectedSentiment": "POSITIVE",
+      "description": "Positive customer feedback"
     }
   ],
-  "accuracy_targets": {
-    "sentiment_analysis": 96.1,
-    "intent_classification": 94.8,
-    "priority_scoring": 95.0,
-    "routing_accuracy": 95.5
-  },
-  "performance_targets": {
-    "max_processing_time_ms": 2000,
-    "avg_processing_time_ms": 1800
+  "metadata": {
+    "totalTestCases": 10,
+    "version": "1.0.0",
+    "created": "2024-08-29",
+    "description": "Comprehensive test cases covering HIGH, MEDIUM, and LOW priority emails"
   }
 }

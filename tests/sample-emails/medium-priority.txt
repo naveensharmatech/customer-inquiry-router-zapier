@@ -1,21 +1,16 @@
-Subject: Help - I can't login to my account
-From: user@example.com
-To: support@company.com
-Date: 2024-01-15T09:45:00Z
+Subject: Questions about upgrading my account
+From: interested-user@email.com
 
-Hi Support Team,
+Hello,
 
-I've been trying to login to my account for the past hour but I keep getting an error message saying "Invalid credentials". I'm sure my password is correct because I can access the password manager and it shows the same credentials.
+I'm currently using your basic plan and I'm interested in upgrading to the professional tier. I have a few questions:
 
-I've tried:
-- Clearing my browser cache
-- Using a different browser
-- Resetting password (but I'm not receiving the reset email)
-- Checking my email spam folder
+1. What are the differences between the professional and enterprise plans?
+2. Do you offer monthly billing, or is it annual only?
+3. Is there a free trial period for the professional plan?
+4. Can I cancel anytime if I'm not satisfied?
 
-Can someone please help me get back into my account? I need to access my project dashboard to prepare for a meeting this afternoon.
+I'd appreciate it if someone could help me understand the options. I'm ready to upgrade if the professional plan meets our needs.
 
-My email is user@example.com and I've been a customer for 2 years.
-
-Thanks for your help!
-User
+Thank you,
+Sarah Johnson

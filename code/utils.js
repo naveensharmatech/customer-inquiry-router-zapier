@@ -1,206 +1,224 @@
 /**
- * Utility Functions
- * Helper functions for email processing and validation
+ * Utility functions for email processing
  */
 
 /**
- * Sanitize email text by removing special characters and extra whitespace
- * @param {string} email - Raw email text
- * @returns {string} Sanitized email text
+ * Extract email address from a string
+ * @param {string} text - Text containing email
+ * @returns {string} - Email address or empty string
  */
-function sanitizeEmail(email) {
-  if (!email || typeof email !== 'string') {
-    return '';
-  }
-  
-  // Remove extra whitespace
-  let sanitized = email.trim().replace(/\s+/g, ' ');
-  
-  // Remove HTML tags if present
-  sanitized = sanitized.replace(/<[^>]*>/g, '');
-  
-  // Remove special characters but keep punctuation
-  sanitized = sanitized.replace(/[^\w\s\.\,\!\?\-]/g, '');
-  
-  return sanitized;
+function extractEmail(text) {
+  const emailRegex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/gi;
+  const match = text.match(emailRegex);
+  return match ? match[0] : '';
 }
 
 /**
- * Extract keywords from email text
- * @param {string} text - Email text
- * @returns {array} Array of extracted keywords
+ * Extract name from email address
+ * @param {string} email - Email address
+ * @returns {string} - Formatted name
  */
-function extractKeywords(text) {
-  if (!text || typeof text !== 'string') {
-    return [];
-  }
-  
-  // Convert to lowercase and split into words
-  const words = text.toLowerCase().split(/\s+/);
-  
-  // Remove common stop words
-  const stopWords = ['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'is', 'are', 'am', 'was', 'were', 'be', 'been'];
-  
-  const keywords = words.filter(word => {
-    return word.length > 3 && !stopWords.includes(word);
-  });
-  
-  // Return unique keywords
-  return [...new Set(keywords)];
+function extractNameFromEmail(email) {
+  const namePart = email.split('@')[0];
+  return namePart
+    .replace(/[._-]/g, ' ')
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }
 
 /**
- * Calculate score for text matching
- * @param {string} text - Text to analyze
- * @param {array} keywords - Keywords to search for
- * @returns {number} Matching score
- */
-function calculateScore(text, keywords) {
-  if (!text || !keywords || keywords.length === 0) {
-    return 0;
-  }
-  
-  let score = 0;
-  const lowerText = text.toLowerCase();
-  
-  keywords.forEach(keyword => {
-    // Count occurrences of keyword
-    const matches = (lowerText.match(new RegExp(keyword, 'g')) || []).length;
-    score += matches;
-  });
-  
-  return score;
-}
-
-/**
- * Validate email address format
- * @param {string} email - Email address to validate
- * @returns {boolean} True if valid email format
+ * Validate email address
+ * @param {string} email - Email to validate
+ * @returns {boolean} - True if valid email
  */
 function isValidEmail(email) {
-  if (!email || typeof email !== 'string') {
-    return false;
-  }
-  
-  // Basic email validation regex
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 }
 
 /**
- * Format timestamp for logging
- * @param {date} date - Date object to format
- * @returns {string} Formatted timestamp
+ * Clean email body (remove signatures, quoted text)
+ * @param {string} body - Email body
+ * @returns {string} - Cleaned body
  */
-function formatTimestamp(date = new Date()) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-  const seconds = String(date.getSeconds()).padStart(2, '0');
+function cleanEmailBody(body) {
+  // Remove common signature patterns
+  const cleaned = body
+    .split(/--+\s*(forwarded|original)/i)[0]  // Remove forwarded sections
+    .split(/On.*?wrote:/i)[0]                   // Remove quoted reply headers
+    .split(/Sent from/i)[0]                     // Remove signature
+    .trim();
   
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  return cleaned;
 }
 
 /**
- * Parse email headers from raw email
- * @param {string} emailText - Raw email text including headers
- * @returns {object} Parsed headers (from, to, subject, date)
+ * Get email excerpt (first N characters)
+ * @param {string} text - Full text
+ * @param {number} length - Max length
+ * @returns {string} - Excerpt
  */
-function parseEmailHeaders(emailText) {
-  if (!emailText || typeof emailText !== 'string') {
-    return {};
-  }
-  
-  const headers = {};
-  const lines = emailText.split('\n');
-  
-  // Extract headers until blank line
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-    
-    if (line.trim() === '') {
-      break; // End of headers
-    }
-    
-    // Parse header lines
-    if (line.includes(':')) {
-      const [key, value] = line.split(':', 2);
-      const headerKey = key.trim().toLowerCase();
-      headers[headerKey] = value.trim();
-    }
-  }
-  
-  return headers;
+function getExcerpt(text, length = 200) {
+  if (!text) return '';
+  if (text.length <= length) return text;
+  return text.substring(0, length) + '...';
 }
 
 /**
- * Truncate text to specified length
+ * Check if email is likely auto-reply
+ * @param {string} subject - Email subject
+ * @param {string} body - Email body
+ * @returns {boolean} - True if likely auto-reply
+ */
+function isAutoReply(subject, body) {
+  const autoReplyIndicators = [
+    'auto-reply',
+    'automatic reply',
+    'out of office',
+    'out of the office',
+    'i am out',
+    'away from desk',
+    'will return',
+    'autoreply',
+    'vacation',
+    'automatic',
+    'ooo'
+  ];
+
+  const combined = (subject + ' ' + body).toLowerCase();
+  return autoReplyIndicators.some(indicator => combined.includes(indicator));
+}
+
+/**
+ * Check if email is from a spam/system address
+ * @param {string} email - Sender email
+ * @returns {boolean} - True if likely spam/system
+ */
+function isSystemEmail(email) {
+  const systemPatterns = [
+    /noreply/i,
+    /no-reply/i,
+    /postmaster/i,
+    /mailer-daemon/i,
+    /bounce/i,
+    /no-sender/i,
+    /automated/i,
+    /robot/i,
+    /bot/i,
+    /zapiermail.com/i
+  ];
+
+  return systemPatterns.some(pattern => pattern.test(email));
+}
+
+/**
+ * Count words in text
+ * @param {string} text - Text to count
+ * @returns {number} - Word count
+ */
+function countWords(text) {
+  if (!text) return 0;
+  return text.trim().split(/\s+/).length;
+}
+
+/**
+ * Check if email is likely spam
+ * @param {string} subject - Email subject
+ * @param {string} body - Email body
+ * @returns {boolean} - True if likely spam
+ */
+function isLikelySpam(subject, body) {
+  const spamKeywords = [
+    'unsubscribe',
+    'marketing',
+    'promotional',
+    'limited time',
+    'click here',
+    'act now',
+    'buy now',
+    'special offer',
+    'for sale'
+  ];
+
+  const combined = (subject + ' ' + body).toLowerCase();
+  const spamCount = spamKeywords.filter(keyword => combined.includes(keyword)).length;
+
+  // If multiple spam keywords found, likely spam
+  return spamCount >= 2;
+}
+
+/**
+ * Truncate text to max length
  * @param {string} text - Text to truncate
- * @param {number} maxLength - Maximum length
- * @returns {string} Truncated text with ellipsis if needed
+ * @param {number} maxLength - Max length
+ * @returns {string} - Truncated text
  */
-function truncateText(text, maxLength = 100) {
-  if (!text || typeof text !== 'string') {
-    return '';
-  }
-  
-  if (text.length <= maxLength) {
-    return text;
-  }
-  
-  return text.substring(0, maxLength - 3) + '...';
+function truncateText(text, maxLength = 500) {
+  if (!text) return '';
+  if (text.length <= maxLength) return text;
+  return text.substring(0, maxLength) + '...';
 }
 
 /**
- * Convert priority level to numeric value for sorting
- * @param {string} priority - Priority level (high, medium, low)
- * @returns {number} Numeric priority value
+ * Format response with name
+ * @param {string} name - Customer name
+ * @param {string} template - Response template
+ * @returns {string} - Formatted response
  */
-function priorityToNumber(priority) {
-  const levels = {
-    'high': 3,
-    'medium': 2,
-    'low': 1
+function formatResponse(name, template) {
+  if (!name) name = 'there';
+  
+  return template
+    .replace(/\[NAME\]/g, name)
+    .replace(/\[DATE\]/g, new Date().toLocaleDateString())
+    .replace(/\[TIME\]/g, new Date().toLocaleTimeString());
+}
+
+/**
+ * Parse priority with confidence
+ * @param {object} classificationResult - Result from classifier
+ * @returns {object} - Parsed result
+ */
+function parsePriority(classificationResult) {
+  return {
+    priority: classificationResult.priority || 'MEDIUM',
+    confidence: classificationResult.confidence || 0.5,
+    sentiment: classificationResult.sentiment || 'NEUTRAL',
+    intent: classificationResult.intent || 'other',
+    isHighConfidence: (classificationResult.confidence || 0) > 0.8
   };
-  return levels[priority] || 0;
 }
 
 /**
- * Calculate response time SLA in milliseconds
- * @param {string} priority - Priority level
- * @param {number} slaHours - SLA in hours
- * @returns {number} SLA in milliseconds
+ * Generate activity log entry
+ * @param {string} priority - Email priority
+ * @param {string} email - Customer email
+ * @param {string} subject - Email subject
+ * @returns {object} - Log entry
  */
-function calculateSLAMilliseconds(slaHours) {
-  if (!slaHours || typeof slaHours !== 'number') {
-    return 24 * 60 * 60 * 1000; // Default 24 hours
-  }
-  
-  return slaHours * 60 * 60 * 1000;
-}
-
-/**
- * Log message with timestamp
- * @param {string} level - Log level (info, warning, error)
- * @param {string} message - Log message
- */
-function log(level, message) {
-  const timestamp = formatTimestamp();
-  const levelUpper = level.toUpperCase().padEnd(7);
-  console.log(`[${timestamp}] ${levelUpper} ${message}`);
+function createLogEntry(priority, email, subject) {
+  return {
+    timestamp: new Date().toISOString(),
+    priority: priority,
+    email: email,
+    subject: subject,
+    status: 'processed'
+  };
 }
 
 module.exports = {
-  sanitizeEmail,
-  extractKeywords,
-  calculateScore,
+  extractEmail,
+  extractNameFromEmail,
   isValidEmail,
-  formatTimestamp,
-  parseEmailHeaders,
+  cleanEmailBody,
+  getExcerpt,
+  isAutoReply,
+  isSystemEmail,
+  countWords,
+  isLikelySpam,
   truncateText,
-  priorityToNumber,
-  calculateSLAMilliseconds,
-  log
+  formatResponse,
+  parsePriority,
+  createLogEntry
 };

@@ -1,0 +1,76 @@
+{
+  "api": {
+    "endpoint": "https://api.anthropic.com/v1/messages",
+    "version": "2023-06-01",
+    "timeout": 30000
+  },
+  "model": {
+    "name": "claude-3-5-sonnet-20241022",
+    "description": "Claude 3.5 Sonnet - Latest model with enhanced reasoning",
+    "alternatives": [
+      "claude-3-opus-20240229",
+      "claude-3-haiku-20240307"
+    ]
+  },
+  "requestConfig": {
+    "maxTokens": 500,
+    "temperature": 0.3,
+    "topP": 1.0,
+    "topK": 40
+  },
+  "systemPrompt": "You are an AI assistant that analyzes customer emails for priority classification. Analyze the provided email and determine its priority level based on urgency, sentiment, and intent.\n\nReturn ONLY one of these priority levels:\n- HIGH: Urgent customer issues, upset/angry customers, critical problems\n- MEDIUM: Normal customer inquiries requiring attention\n- LOW: General informational requests, FAQ questions, feedback\n\nConsider:\n1. Email tone and sentiment\n2. Keywords indicating urgency (urgent, asap, emergency, help, etc.)\n3. Problem severity (broken features, account issues, billing problems)\n4. Customer satisfaction level\n\nReturn only the priority level, nothing else.",
+    "analyticPrompt": "Analyze this customer email and provide:\n1. Priority level (HIGH/MEDIUM/LOW)\n2. Sentiment (POSITIVE/NEUTRAL/NEGATIVE)\n3. Primary intent (sales/support/billing/feedback/other)\n4. Confidence score (0-1)\n5. Key issues or requests\n\nFormat as JSON."
+  },
+  "errorHandling": {
+    "maxRetries": 3,
+    "retryDelayMs": 1000,
+    "retryOn": [429, 500, 502, 503, 504],
+    "fallbackBehavior": "use_keyword_classification"
+  },
+  "monitoring": {
+    "trackUsage": true,
+    "logRequests": true,
+    "logResponses": false,
+    "trackCosts": true,
+    "alertOnError": true
+  },
+  "pricing": {
+    "inputTokens": {
+      "rate": 0.003,
+      "unit": "per 1K tokens"
+    },
+    "outputTokens": {
+      "rate": 0.015,
+      "unit": "per 1K tokens"
+    },
+    "estimatedCostPerEmail": 0.01,
+    "description": "Approximate cost per email based on average token usage"
+  },
+  "performance": {
+    "averageLatencyMs": 1500,
+    "p95LatencyMs": 3000,
+    "p99LatencyMs": 5000
+  },
+  "features": {
+    "streaming": false,
+    "batchProcessing": false,
+    "caching": true
+  },
+  "limits": {
+    "maxInputTokens": 4096,
+    "maxOutputTokens": 500,
+    "requestsPerMinute": 60,
+    "dailyQuota": "unlimited"
+  },
+  "authentication": {
+    "method": "api_key",
+    "headerName": "x-api-key",
+    "envVar": "CLAUDE_API_KEY",
+    "keyFormat": "sk-ant-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  },
+  "fallback": {
+    "enabled": true,
+    "fallbackMethod": "keyword_based_classification",
+    "description": "If Claude API fails, use keyword-based classifier as fallback"
+  }
+}

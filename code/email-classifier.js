@@ -1,244 +1,186 @@
 /**
- * Email Classifier Engine
- * Analyzes customer emails for sentiment, intent, and priority
+ * Email Classifier - Keyword-based email classification
+ * Classifies emails as HIGH, MEDIUM, or LOW priority
+ * 
+ * This is a fallback classifier that doesn't require Claude API
+ * Used when Claude API is unavailable
  */
 
-const keywords = require('../config/keywords.json');
-const departmentMapping = require('../config/department-mapping.json');
+const keywords = {
+  urgent: ['urgent', 'asap', 'emergency', 'immediately', 'now', 'critical', 'help!', 'sos'],
+  upset: ['upset', 'angry', 'frustrated', 'disappointed', 'furious', 'hate', 'terrible', 'worst'],
+  problem: ['problem', 'issue', 'error', 'bug', 'broken', 'not working', 'failed'],
+  billing: ['charge', 'invoice', 'refund', 'payment', 'subscription', 'billing'],
+  support: ['help', 'assist', 'support', 'cannot access', 'account issue'],
+  sales: ['buy', 'pricing', 'cost', 'plans', 'demo', 'trial'],
+  feedback: ['feedback', 'suggestion', 'improve', 'idea', 'request']
+};
 
 /**
- * Analyze email and determine routing
- * @param {string} emailBody - The email content to analyze
- * @param {string} emailSubject - The email subject
- * @returns {object} Classification result with sentiment, intent, priority, and routing
+ * Classify email based on keywords and patterns
+ * @param {string} subject - Email subject
+ * @param {string} body - Email body
+ * @returns {object} - Classification result with priority, confidence, intent, sentiment
  */
-function classifyEmail(emailBody, emailSubject) {
-  const text = `${emailSubject} ${emailBody}`.toLowerCase();
-  
+function classifyEmail(subject, body) {
+  if (!subject || !body) {
+    return {
+      priority: 'MEDIUM',
+      confidence: 0.5,
+      intent: 'other',
+      sentiment: 'NEUTRAL',
+      reason: 'Insufficient data'
+    };
+  }
+
+  const text = (subject + ' ' + body).toLowerCase();
+  let score = 0;
+  let maxPriority = 'MEDIUM';
+  let intent = 'other';
+  let sentiment = 'NEUTRAL';
+  const foundKeywords = [];
+
+  // Check for HIGH priority indicators
+  if (matchKeywords(text, keywords.urgent) || matchKeywords(text, keywords.upset) || matchKeywords(text, keywords.problem)) {
+    score += 0.3;
+    foundKeywords.push('urgency_or_upset');
+  }
+
+  if (matchKeywords(text, keywords.billing)) {
+    score += 0.3;
+    foundKeywords.push('billing');
+    intent = 'billing';
+  }
+
+  if (matchKeywords(text, keywords.support)) {
+    score += 0.2;
+    foundKeywords.push('support');
+    intent = 'support';
+  }
+
+  // Determine priority level
+  if (score >= 0.8) {
+    maxPriority = 'HIGH';
+  } else if (score >= 0.5) {
+    maxPriority = 'MEDIUM';
+  } else {
+    maxPriority = 'LOW';
+    if (matchKeywords(text, keywords.sales)) {
+      intent = 'sales';
+    } else if (matchKeywords(text, keywords.feedback)) {
+      intent = 'feedback';
+    }
+  }
+
   // Analyze sentiment
-  const sentiment = analyzeSentiment(text);
-  
-  // Classify intent
-  const intent = classifyIntent(text);
-  
-  // Calculate priority
-  const priority = calculatePriority(text, sentiment, intent);
-  
-  // Determine department
-  const department = getDepartmentRecommendation(intent, priority);
-  
-  // Calculate confidence score
-  const confidence = calculateConfidence(sentiment, intent, priority);
-  
+  if (matchKeywords(text, keywords.upset)) {
+    sentiment = 'NEGATIVE';
+  } else if (matchKeywords(text, ['thank', 'appreciate', 'grateful', 'excellent', 'love', 'amazing'])) {
+    sentiment = 'POSITIVE';
+  } else {
+    sentiment = 'NEUTRAL';
+  }
+
   return {
-    sentiment: sentiment,
+    priority: maxPriority,
+    confidence: Math.min(score, 1.0),
     intent: intent,
-    priority: priority,
-    summary: generateSummary(emailSubject, sentiment, intent, priority),
-    recommended_department: department,
-    confidence: confidence
+    sentiment: sentiment,
+    foundKeywords: foundKeywords,
+    score: score
+  };
+}
+
+/**
+ * Check if text contains any keywords from array
+ * @param {string} text - Text to search
+ * @param {array} keywordArray - Array of keywords to find
+ * @returns {boolean} - True if any keyword found
+ */
+function matchKeywords(text, keywordArray) {
+  return keywordArray.some(keyword => text.includes(keyword));
+}
+
+/**
+ * Extract sender name from email or subject
+ * @param {string} from - Sender email address
+ * @param {string} subject - Email subject
+ * @param {string} body - Email body
+ * @returns {object} - First and last name
+ */
+function extractName(from, subject, body) {
+  // Try to extract from email local part
+  const emailMatch = from.match(/^([a-z0-9._\-]+)@/i);
+  if (emailMatch) {
+    const namePart = emailMatch[1]
+      .replace(/[._\-]/g, ' ')
+      .replace(/\b\w/g, char => char.toUpperCase());
+    
+    const nameParts = namePart.split(' ').filter(p => p.length > 0);
+    return {
+      firstName: nameParts[0] || 'Customer',
+      lastName: nameParts.slice(1).join(' ') || ''
+    };
+  }
+
+  return {
+    firstName: 'Customer',
+    lastName: ''
   };
 }
 
 /**
  * Analyze email sentiment
- * @param {string} text - Email text to analyze
- * @returns {string} Sentiment value: positive, neutral, or negative
+ * @param {string} text - Email text
+ * @returns {string} - POSITIVE, NEUTRAL, or NEGATIVE
  */
 function analyzeSentiment(text) {
-  let positiveScore = 0;
-  let negativeScore = 0;
-  
-  // Check positive keywords
-  keywords.sentiment.positive.forEach(keyword => {
-    if (text.includes(keyword.toLowerCase())) {
-      positiveScore += 2;
-    }
-  });
-  
-  // Check negative keywords
-  keywords.sentiment.negative.forEach(keyword => {
-    if (text.includes(keyword.toLowerCase())) {
-      negativeScore += 2;
-    }
-  });
-  
-  // Check urgency indicators for negative sentiment
-  keywords.urgency.forEach(urgency => {
-    if (text.includes(urgency.toLowerCase())) {
-      negativeScore += 1;
-    }
-  });
-  
-  // Determine sentiment
-  if (positiveScore > negativeScore) {
-    return 'positive';
-  } else if (negativeScore > positiveScore) {
-    return 'negative';
-  }
-  return 'neutral';
+  const positive = ['thank', 'appreciate', 'grateful', 'excellent', 'love', 'amazing', 'great', 'wonderful'];
+  const negative = ['upset', 'angry', 'frustrated', 'disappointed', 'hate', 'terrible', 'worst', 'awful'];
+
+  const lowerText = text.toLowerCase();
+  const positiveCount = positive.filter(word => lowerText.includes(word)).length;
+  const negativeCount = negative.filter(word => lowerText.includes(word)).length;
+
+  if (negativeCount > positiveCount) return 'NEGATIVE';
+  if (positiveCount > 0) return 'POSITIVE';
+  return 'NEUTRAL';
 }
 
 /**
- * Classify email intent
- * @param {string} text - Email text to analyze
- * @returns {string} Intent: sales, support, billing, feedback, or other
+ * Main classification function
+ * @param {object} emailData - Email data object
+ * @returns {object} - Full classification result
  */
-function classifyIntent(text) {
-  const intents = ['sales', 'support', 'billing', 'feedback'];
-  const scores = {};
+function classify(emailData) {
+  const { subject, body, from } = emailData;
   
-  // Score each intent
-  intents.forEach(intent => {
-    scores[intent] = 0;
-    keywords.intent[intent].forEach(keyword => {
-      if (text.includes(keyword.toLowerCase())) {
-        scores[intent] += 1;
-      }
-    });
-  });
-  
-  // Find highest scoring intent
-  let maxScore = 0;
-  let bestIntent = 'other';
-  
-  Object.keys(scores).forEach(intent => {
-    if (scores[intent] > maxScore) {
-      maxScore = scores[intent];
-      bestIntent = intent;
-    }
-  });
-  
-  return maxScore > 0 ? bestIntent : 'other';
-}
+  if (!subject || !body || !from) {
+    throw new Error('Missing required email data: subject, body, from');
+  }
 
-/**
- * Calculate priority level
- * @param {string} text - Email text
- * @param {string} sentiment - Email sentiment
- * @param {string} intent - Email intent
- * @returns {string} Priority: high, medium, or low
- */
-function calculatePriority(text, sentiment, intent) {
-  let score = 0;
-  
-  // High score for urgent keywords
-  keywords.urgency.forEach(urgency => {
-    if (text.includes(urgency.toLowerCase())) {
-      score += 10;
-    }
-  });
-  
-  // Negative sentiment increases priority
-  if (sentiment === 'negative') {
-    score += 5;
-  }
-  
-  // Support intent is higher priority
-  if (intent === 'support') {
-    score += 3;
-  }
-  
-  // Billing is medium-high priority
-  if (intent === 'billing') {
-    score += 2;
-  }
-  
-  // Determine priority level
-  if (score >= 10) {
-    return 'high';
-  } else if (score >= 5) {
-    return 'medium';
-  }
-  return 'low';
-}
+  const classification = classifyEmail(subject, body);
+  const nameInfo = extractName(from, subject, body);
 
-/**
- * Get recommended department for routing
- * @param {string} intent - Email intent
- * @param {string} priority - Email priority
- * @returns {object} Department recommendation with email and SLA
- */
-function getDepartmentRecommendation(intent, priority) {
-  // Map intent to department
-  let department = 'general';
-  
-  if (intent === 'sales') {
-    department = 'sales';
-  } else if (intent === 'support') {
-    department = 'support';
-  } else if (intent === 'billing') {
-    department = 'billing';
-  }
-  
-  // Get department config
-  const deptConfig = departmentMapping[department];
-  
-  if (!deptConfig) {
-    return {
-      department: 'general',
-      email: 'info@company.com',
-      sla_hours: 24
-    };
-  }
-  
-  // Get SLA based on priority
-  const sla = deptConfig.sla[priority] || 24;
-  
   return {
-    department: department,
-    email: deptConfig.email,
-    sla_hours: sla,
-    priority_boost: deptConfig.priority_boost
+    priority: classification.priority,
+    sentiment: classification.sentiment,
+    intent: classification.intent,
+    confidence: classification.confidence,
+    foundKeywords: classification.foundKeywords,
+    name: nameInfo,
+    metadata: {
+      classifier: 'keyword-based',
+      version: '1.0.0',
+      timestamp: new Date().toISOString()
+    }
   };
 }
 
-/**
- * Calculate confidence score for classification
- * @param {string} sentiment - Sentiment analysis result
- * @param {string} intent - Intent classification result
- * @param {string} priority - Priority calculation result
- * @returns {number} Confidence score 0-1
- */
-function calculateConfidence(sentiment, intent, priority) {
-  // Base confidence
-  let confidence = 0.9;
-  
-  // Reduce confidence if sentiment is neutral (less clear)
-  if (sentiment === 'neutral') {
-    confidence -= 0.05;
-  }
-  
-  // Reduce confidence if intent is 'other' (unclear)
-  if (intent === 'other') {
-    confidence -= 0.1;
-  }
-  
-  // Increase confidence if high priority is detected
-  if (priority === 'high') {
-    confidence += 0.05;
-  }
-  
-  return Math.min(0.95, confidence);
-}
-
-/**
- * Generate summary of email classification
- * @param {string} subject - Email subject
- * @param {string} sentiment - Email sentiment
- * @param {string} intent - Email intent
- * @param {string} priority - Email priority
- * @returns {string} Summary description
- */
-function generateSummary(subject, sentiment, intent, priority) {
-  return `${priority.charAt(0).toUpperCase() + priority.slice(1)}-priority ${intent} email with ${sentiment} sentiment: "${subject}"`;
-}
-
 module.exports = {
+  classify,
   classifyEmail,
   analyzeSentiment,
-  classifyIntent,
-  calculatePriority,
-  getDepartmentRecommendation,
-  calculateConfidence
+  extractName,
+  matchKeywords
 };

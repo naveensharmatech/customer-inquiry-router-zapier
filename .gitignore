@@ -2,30 +2,53 @@
 .env
 .env.local
 .env.*.local
-*.env
-# Node
+
+# Node modules
 node_modules/
 npm-debug.log*
-yarn.lock
-package-lock.json
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*.sublime-workspace
-# OS
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
 .DS_Store
 Thumbs.db
-# Logs
-*.log
-# Sensitive
-credentials.json
-config/secrets.json
-*.key
-*.pem
-config/auth-*.json
-# Temp
-temp/
+*.swp
+*.swo
+*~
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Build/dist
+dist/
+build/
+*.tgz
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Temporary files
 tmp/
-.temp/
+temp/
+*.tmp
+
+# Logs
+logs/
+*.log
+
+# Dependencies lock files (optional)
+# package-lock.json
+# yarn.lock
+
+# Zapier specific
+.zapier-cache/
+zap-logs/
+
+# Credentials and sensitive data
+credentials.json
+tokens.json
+secrets.json
