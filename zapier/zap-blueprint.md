@@ -209,25 +209,27 @@ CLAUDE API ANALYSIS
 
 ## Integration Connections
 
+These are connection points in the reference design, not a claim that an external account is currently connected or active. Configure and verify each connection in your own Zapier account.
+
 ### 1. Gmail Integration
 - **Connected as:** Gmail trigger (Step 1)
 - **Permissions:** Read emails, Send emails
 - **Account:** Your Gmail account
-- **Status:** Connected and active
+- **Status:** Requires configuration and account verification
 
 ### 2. Claude API Integration
 - **Connected as:** External API (Step 2)
 - **Endpoint:** https://api.anthropic.com/v1/messages
 - **Authentication:** API Key
 - **Headers:** x-api-key, content-type
-- **Status:** Connected and active
+- **Status:** Requires configuration and account verification
 
 ### 3. HubSpot Integration
 - **Connected as:** CRM action (Step 3, Path B)
 - **Action:** Create/Update contacts
 - **Permissions:** Read/Write contacts
 - **Fields Mapped:** Email, First Name, Priority
-- **Status:** Connected and active
+- **Status:** Requires configuration and account verification
 
 ---
 
@@ -254,16 +256,17 @@ Customer Added to CRM (if MEDIUM/HIGH)
 
 ---
 
-## Performance Characteristics
+## Performance Measurement
 
-| Metric | Value |
-|--------|-------|
-| Average Execution Time | 3.2 seconds |
-| Success Rate | 99.8% |
-| Classification Accuracy | 94% |
-| Monthly Capacity | ~5,000+ emails |
-| API Response Time | 1-3 seconds (Claude) |
-| Email Send Time | 0.5-1 second |
+This repository does not include verified production telemetry for latency, accuracy, success rate, or capacity. Measure these values in the target account using the definitions in [`docs/PERFORMANCE.md`](../docs/PERFORMANCE.md).
+
+| Measure | Evidence to collect |
+|---|---|
+| Execution time | Zapier step/run timestamps; report median and P90 |
+| Success rate | Successful eligible executions / all eligible executions |
+| Classification quality | Human-reviewed correct labels / reviewed messages, with sample size |
+| Capacity | Plan/task limits, provider limits, peak volume, and queue delay |
+| Delivery | Confirmed email action/delivery evidence, not only a completed Zap run |
 
 ---
 
@@ -271,10 +274,10 @@ Customer Added to CRM (if MEDIUM/HIGH)
 
 ```
 If Claude API Fails
-├── Network Error → Retry up to 3 times
+├── Network Error → Use bounded retry/backoff configured in the Zap
 ├── API Error (401/403) → Check API key
 ├── Rate Limit (429) → Queue and retry
-└── Invalid Response → Default to MEDIUM priority
+└── Invalid Response → Route to human review or an explicitly approved fallback
 
 If HubSpot Integration Fails
 ├── Authentication Error → Check API key
@@ -354,4 +357,3 @@ Map additional fields in HubSpot contact creation
 
 ### Integrate Other Services
 Add more actions to paths (e.g., Slack notifications)
-

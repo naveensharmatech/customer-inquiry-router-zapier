@@ -1,0 +1,44 @@
+{
+  "note": "Synthetic examples for documentation and test-Zap validation. Expected outputs are examples, not live Claude results.",
+  "samples": [
+    {
+      "id": "urgent-billing",
+      "input": {
+        "from": "sam@example.test",
+        "subject": "URGENT: unexpected charge",
+        "body": "I see an unexpected charge on my account and need help resolving it today."
+      },
+      "expectedOutput": {
+        "priority": "HIGH",
+        "route": "staffed escalation",
+        "crmAction": "Optional; follow the configured capture policy"
+      }
+    },
+    {
+      "id": "pricing-question",
+      "input": {
+        "from": "lee@example.test",
+        "subject": "Question about plans",
+        "body": "Could you share information about your plans and pricing?"
+      },
+      "expectedOutput": {
+        "priority": "MEDIUM",
+        "route": "sales or standard inquiry queue",
+        "crmAction": "Optional; follow the configured capture policy"
+      }
+    },
+    {
+      "id": "general-information",
+      "input": {
+        "from": "alex@example.test",
+        "subject": "Where can I find the FAQ?",
+        "body": "I have a general question and would like to find your help articles."
+      },
+      "expectedOutput": {
+        "priority": "LOW",
+        "route": "information/FAQ response with human-support option",
+        "crmAction": "Optional; follow the configured capture policy"
+      }
+    }
+  ]
+}

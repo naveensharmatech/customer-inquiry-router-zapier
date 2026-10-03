@@ -2,13 +2,9 @@
 
 This guide explains how to deploy and update the Customer Inquiry Router Zap in production.
 
-## Current Deployment Status
+## Deployment Status
 
-✅ **Status:** Live and operational in production
-- **Zap ID:** 377871067
-- **Zap Name:** AI Customer Inquiry Router
-- **Environment:** Production
-- **Launch Date:** Active since setup
+This repository contains a reference configuration and deployment guidance. It does not verify the current state of any external Zapier, Gmail, Anthropic, or HubSpot account. Confirm ownership, access, and live status in the relevant service before relying on a deployment.
 
 ## Deployment Architecture
 
@@ -39,6 +35,7 @@ Before deploying any changes:
 - [ ] HubSpot field mappings match your portal
 - [ ] Gmail account is authenticated
 - [ ] Response email templates are reviewed
+- [ ] Fallback routing, privacy, retention, and rollback owner are documented
 
 ## Deployment Steps
 
@@ -105,12 +102,9 @@ Zapier automatically:
 
 ## Scaling Considerations
 
-### Current Capacity
+### Capacity
 
-- **Tasks per month:** Zapier free tier limit
-- **Concurrent executions:** Single execution per email
-- **Email size limit:** 25MB (Zapier limit)
-- **Response latency:** 2-5 seconds typical
+Capacity depends on the connected Zapier plan, task count per message, provider limits, and peak arrival patterns. This repository does not include verified throughput or response-latency benchmarks. Measure those values in the target accounts before setting a production service level.
 
 ### Scaling to Higher Volume
 
@@ -168,7 +162,6 @@ For deployment issues or questions:
 
 ## Additional Resources
 
-- [Zapier Zap URL](https://zapier.com/editor/377870671/draft/377871067/setup)
 - [Zapier Documentation](https://zapier.com/help)
-- [Anthropic Claude API Docs](https://console.anthropic.com/docs)
+- [Anthropic Claude API Docs](https://docs.anthropic.com/)
 - [HubSpot API Documentation](https://developers.hubspot.com/)
