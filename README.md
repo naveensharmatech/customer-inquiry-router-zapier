@@ -1,268 +1,135 @@
-# 🤖 AI-Powered Customer Inquiry Router
+# AI-Powered Customer Inquiry Router
 
-<div align="center">
+An automation reference project for triaging incoming customer email with Gmail, Zapier, Claude, and HubSpot. The workflow classifies inquiries by priority, routes them to an appropriate response path, and can record selected inquiries in a CRM.
 
-[![Status](https://img.shields.io/badge/Status-Live%20%26%20Running-brightgreen?style=for-the-badge&logo=github)](https://github.com)
-[![Claude](https://img.shields.io/badge/Claude_API-Integrated-blue?style=for-the-badge&logo=python)](https://anthropic.com)
-[![Zapier](https://img.shields.io/badge/Zapier-Automation-ff6b35?style=for-the-badge&logo=zapier)](https://zapier.com)
-[![HubSpot](https://img.shields.io/badge/HubSpot-CRM-ff7a59?style=for-the-badge&logo=hubspot)](https://hubspot.com)
+> **Reported project outcomes:** approximately **98% less manual triage time**, a decrease in response time from **24 hours to about 5 minutes**, and **100% lead capture**. These are reported case-study figures, not results produced by the local test suite or independently audited production telemetry. See [Performance and ROI](docs/PERFORMANCE.md) for definitions and validation guidance.
+
+## At a glance
+
+| | |
+| --- | --- |
+| **Built by** | Naveen Sharma — AI Automation Engineer |
+| **Workflow** | Gmail → Zapier → Claude → priority paths → email and optional HubSpot actions |
+| **Implementation method** | Discover → Configure → Validate → Deploy |
+| **Local checks** | 10 deterministic test cases for the keyword classifier |
+| **Status** | Reusable reference implementation; configure and validate integrations in your own accounts |
+
+## Business problem and reported impact
+
+Manual triage can delay replies, make priority handling inconsistent, and leave inquiries out of a CRM. This project demonstrates a configurable workflow for classifying, routing, acknowledging, and tracking customer inquiries.
+
+| Measure | Baseline | Reported outcome |
+| --- | --- | --- |
+| Manual triage effort | 2–3 hours per day | Approximately 98% lower |
+| Initial response | About 24 hours | About 5 minutes |
+| Lead capture | 60% | 100% |
 
-![Visitors](https://img.shields.io/badge/Visitors-100%25%20Automated-blueviolet?style=flat-square)
-![Built](https://img.shields.io/badge/Built-Aug%202026-orange?style=flat-square)
+These figures are context for the project story, not a service-level guarantee. Actual performance depends on account configuration, email volume, provider latency, operating hours, CRM mapping, and human follow-up. The ROI guide explains how to recalculate using your own data.
 
----
+## Architecture
+
+```text
+Customer email
+     │
+     ▼
+Gmail trigger ──► Zapier workflow ──► Claude priority classification
+                                          │
+                                  HIGH / MEDIUM / LOW
+                                    ┌─────┼─────┐
+                                    ▼     ▼     ▼
+                                  urgent  normal  FAQ
+                                  reply   reply   reply
+                                          │
+                               configured HubSpot action
+                                    (selected path)
+```
 
-### Eliminate manual email triage with AI-powered automation ⚡
+Gmail supplies the message fields, Claude returns a priority label, and Zapier Paths choose the follow-up. The repository includes a HubSpot mapping example; connect and test the action in the paths required by your business. See [Architecture](docs/ARCHITECTURE.md), the [workflow walkthrough](docs/WORKFLOW.md), or the [diagram description](assets/workflow-diagram.md).
 
----
+## Implementation methodology
 
-## 🎯 The Challenge
+1. **Discover** — map inquiry sources, urgency criteria, ownership, response commitments, and CRM requirements.
+2. **Configure** — connect Gmail in Zapier, secure the Anthropic credential, define the classifier and paths, and map HubSpot properties.
+3. **Validate** — test all priorities, missing/duplicate data, service failures, and email delivery in a non-production setup.
+4. **Deploy** — enable the Zap after approval, monitor task history and CRM records, and keep a rollback path.
 
-> **"We were spending 2-3 hours daily on manual email triage..."**
+## Technology and skills
 
-| Problem | Impact |
-|---------|--------|
-| 📧 Manual sorting | 2-3 hours/day wasted |
-| ⏱️ Slow responses | 24+ hour response time |
-| 👥 Missed leads | 40% lead capture rate |
-| 😫 Repetitive work | Human burnout |
+| Technology | Use | Skill tags |
+| --- | --- | --- |
+| Zapier | Trigger, branching, integration orchestration | `workflow-automation` `no-code` |
+| Claude API | Natural-language priority classification | `generative-ai` `prompt-design` `API-integration` |
+| Gmail | Incoming inquiry trigger and response delivery | `email-automation` |
+| HubSpot | Optional contact and inquiry tracking | `CRM` `RevOps` |
+| JavaScript / Node.js | Reference classifier, utilities, and local checks | `JavaScript` `testing` |
 
----
+## Success story and ROI
 
-## ✨ The Solution
+The case study describes a reported change from manual triage and delayed replies to an automated acknowledgment-and-routing workflow. A practical value estimate is:
 
-### Intelligent Automation Workflow
-📬 Email In → 🤖 Claude AI → 🎯 Smart Routing → 📤 Response Out
+```text
+monthly gross labor value = verified hours saved × fully loaded hourly labor cost
+monthly net value = monthly gross labor value − actual monthly platform/API costs
+```
 
-**What it does:**
-- 🧠 **AI Analysis** - Claude reads & understands each inquiry
-- 🎯 **Smart Priority** - Scores as High/Medium/Low automatically  
-- 🚀 **Auto Routing** - Sends to correct team instantly
-- 👥 **Lead Capture** - Creates HubSpot contacts automatically
-- 💬 **Personalized Response** - Sends customized replies in 5 min
+For illustration only, 50 verified hours saved at $30/hour is $1,500 gross labor value per month before platform and API fees. Use your own Zapier plan, model usage, and measured labor data; this example is not a guaranteed saving. See [Performance and ROI](docs/PERFORMANCE.md) and the [case study](assets/case-study.md).
 
----
+## Get started
 
-## 📊 Results That Matter
+- [Setup and configuration](docs/SETUP.md)
+- [Architecture and data flow](docs/ARCHITECTURE.md)
+- [Workflow walkthrough](docs/WORKFLOW.md)
+- [Performance and ROI methodology](docs/PERFORMANCE.md)
+- [Troubleshooting](docs/TROUBLESHOOTING.md)
+- [Production deployment checklist](DEPLOYMENT.md)
+- [Zapier blueprint](zapier/zap-blueprint.md)
 
-| Metric | Before | After | Impact |
-|--------|--------|-------|--------|
-| **Daily Triage Time** | 2-3 hours | 5 minutes | **-98%** ⚡ |
-| **Response Time** | 24 hours | 5 minutes | **-99%** 🚀 |
-| **Lead Capture** | 60% | 100% | **+40%** 📈 |
-| **Monthly Hours Saved** | — | 40-60 hrs | **Massive ROI** 💰 |
+Run the local keyword-classifier tests with Node.js:
 
----
+```bash
+npm test
+```
 
-## 🏆 Key Features
+This command tests the repository's local classifier against the test fixture; it does **not** call Claude, Zapier, Gmail, or HubSpot. Priority-specific test commands are available as `npm run test:high`, `npm run test:medium`, and `npm run test:low`.
 
-| Feature | Status | Impact |
-|---------|--------|--------|
-| 🤖 AI-Powered Analysis | ✅ Active | Smart decisions |
-| ⚡ 100% Automation | ✅ Active | Zero manual work |
-| 🚀 Real-time Processing | ✅ Active | 5-min response |
-| 💾 Lead Auto-Capture | ✅ Active | 100% capture rate |
-| 📊 Scalability | ✅ Active | 50+ emails/day |
-| 🔒 Secure & Private | ✅ Active | Enterprise-grade |
+## Repository map
 
----
-
-## 🛠️ Technology Stack
-
-<div align="center">
-
-![Zapier](https://img.shields.io/badge/-Zapier-FF6B35?style=for-the-badge&logo=zapier&logoColor=white)
-![Claude](https://img.shields.io/badge/-Claude_API-0969DA?style=for-the-badge&logo=python&logoColor=white)
-![HubSpot](https://img.shields.io/badge/-HubSpot-FF7A59?style=for-the-badge&logo=hubspot&logoColor=white)
-![Gmail](https://img.shields.io/badge/-Gmail-EA4335?style=for-the-badge&logo=gmail&logoColor=white)
-
-</div>
-
-| Tool | Role | Why |
-|------|------|-----|
-| **Zapier** | Workflow Engine | Connects all tools seamlessly |
-| **Claude API** | AI Brain | Intelligent analysis & scoring |
-| **HubSpot** | CRM Hub | Centralized lead management |
-| **Gmail** | Trigger | Captures incoming emails |
-
----
-
-## 📸 See It In Action
-
-### Complete Workflow Diagram
-![Workflow Diagram](./images/workflow-diagram.png)
-*Visual overview: Email trigger → Claude AI analysis → Smart routing → Responses & HubSpot integration*
-
-### Full Workflow Overview
-![Workflow Overview](./images/workflow-overview.png)
-*Complete automation flow with all steps visualized*
-
-### Priority Routing Configuration
-![Path Configuration](./images/path-configuration.png)
-*High/Medium/Low routing paths with custom logic*
-
-### Live Execution Results
-![Execution Results](./images/execution-results.png)
-*Real workflow execution showing all steps tested and successful*
-
----
-
-## 📈 Monthly Impact Report
-
-📊 Performance Metrics (August 2026)
-
-✅ Emails Processed: 1,500+
-✅ Automation Rate: 100%
-✅ Manual Hours Saved: 40-60 hrs
-✅ Lead Capture: 100% (vs 60%)
-✅ Response Time: 5 min (vs 24 hrs)
-✅ System Uptime: 99.9%
-
----
-
-## 🎓 Certifications Earned
-
-While building this project, I earned:
-
-<div align="center">
-
-![Zapier AI Builder](https://img.shields.io/badge/Zapier-AI_Builder-FF6B35?style=flat-square)
-![Claude Certified](https://img.shields.io/badge/Claude-Certified_Associate-0969DA?style=flat-square)
-![Make.com](https://img.shields.io/badge/Make.com-AI_Agents-FF6B35?style=flat-square)
-![HubSpot](https://img.shields.io/badge/HubSpot-Revenue_Ops-FF7A59?style=flat-square)
-![n8n](https://img.shields.io/badge/n8n-Foundations-FF6B6B?style=flat-square)
-![AI Trainer](https://img.shields.io/badge/Bronze-AI_Trainer-FFB700?style=flat-square)
-
-</div>
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-- ✅ Zapier account (free)
-- ✅ Claude API key (free trial)
-- ✅ HubSpot account (free)
-- ✅ Gmail account
-
-### Quick Setup
-1. Connect Gmail to Zapier
-2. Add Claude API key
-3. Configure routing rules
-4. Connect HubSpot
-5. Test with sample email
-6. Deploy ✅
-
----
-
-## 📚 Documentation
-
-Complete guides and documentation:
-
-### Getting Started
-- **[SETUP.md](./SETUP.md)** - Step-by-step installation guide
-- **[WORKFLOW.md](./WORKFLOW.md)** - Detailed workflow overview
-
-### Technical Docs
-- **[docs/HOW-IT-WORKS.md](./docs/HOW-IT-WORKS.md)** - Technical breakdown
-- **[docs/API-SETUP.md](./docs/API-SETUP.md)** - API configuration
-- **[docs/TROUBLESHOOTING.md](./docs/TROUBLESHOOTING.md)** - Common issues & fixes
-
-### Case Study & Metrics
-- **[assets/case-study.md](./assets/case-study.md)** - Full project case study
-- **[assets/performance-metrics.md](./assets/performance-metrics.md)** - Performance data & ROI
-
----
-
-## 📁 Repository Structure
-
-customer-inquiry-router-zapier/
-├── README.md
-├── SETUP.md
-├── WORKFLOW.md
-├── LICENSE
-├── docs/
-│ ├── HOW-IT-WORKS.md
-│ ├── API-SETUP.md
-│ └── TROUBLESHOOTING.md
-├── assets/
-│ ├── case-study.md
-│ └── performance-metrics.md
-└── images/
-├── workflow-diagram.png
-├── workflow-overview.png
-├── path-configuration.png
-└── execution-results.png
-
-
----
-
-## 💡 Use Cases
-
-✅ Customer Support Automation
-✅ Sales Inquiry Routing
-✅ Lead Qualification
-✅ Support Ticket Triage
-✅ Internal Request Management
-
----
-
-## 📞 Contact & Connect
-
-<div align="center">
-
-**Built by:** Naveen Sharma 👨‍💻
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/naveensharmatech)
-[![Portfolio](https://img.shields.io/badge/Portfolio-naveensharma.net-FF6B35?style=for-the-badge)](https://naveensharma.net)
-[![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github)](https://github.com/naveensharmatech)
-
-</div>
-
----
-
-## 💼 Open to Opportunities
-
-**About Me:**
-- 🎯 **Role:** AI Automation Engineer | No-Code Specialist
-- 📍 **Status:** Job Seeker | Available for Immediate Start
-- 🌍 **Open to:** Remote | Global B2B | Contract | Full-time | Hybrid
-- ✅ **Certifications:** Zapier AI Builder | Claude Certified Associate | HubSpot Revenue Operations | Make.com Automation to AI Agents | n8n Foundations 
-
-**What I Bring:**
-- ✨ Production-grade automation workflows (Zapier, Make.com, n8n)
-- 🤖 Claude API & generative AI integration expertise
-- 📊 CRM + business process automation knowledge
-- 💼 4+ years SaaS & health-tech background
-- 🎓 Credentialed & continuously learning
-
-**Looking For:**
-- 🚀 AI Automation Engineer positions
-- 🔧 Zapier/Make.com specialist roles
-- 🌐 No-code automation implementations
-- 💡 Automation consulting opportunities
-- 🤝 Remote/Global opportunities
-
-**Let's Connect:**
-📧 **Email:** [contact@naveensharma.net](mailto:contact.naveensharma@gmail.com)
-🔗 **LinkedIn:** [linkedin.com/in/naveensharmatech](https://linkedin.com/in/naveensharmatech)
-🌐 **Portfolio:** [naveensharma.net](https://naveensharma.net)
-🐙 **GitHub:** [github.com/naveensharmatech](https://github.com/naveensharmatech)
-
----
-
-## 📄 License
-
-This project is open source and available under the MIT License.
-
----
-
-<div align="center">
-
-### ⭐ If this project helped you, please star it!
-
-**Made with ❤️ by Naveen Sharma**
-
-[⬆ Back to Top](#-ai-powered-customer-inquiry-router)
-
-</div>
+```text
+.
+├── assets/       # Case study, performance summary, workflow diagram description
+├── code/         # Local keyword and Claude classifier examples
+├── config/       # Example classifier and CRM field configuration
+├── docs/         # Architecture, setup, workflow, performance, troubleshooting
+├── examples/     # Safe sample Zap setup, email payloads, test scenarios
+├── images/       # Workflow and Zap configuration illustrations
+├── tests/        # Local classifier tests and sample email fixtures
+└── zapier/       # Zap blueprint and Code by Zapier example
+```
+
+## Production checklist
+
+- [ ] Confirm business hours, urgency definitions, ownership, and response SLAs.
+- [ ] Store credentials in Zapier-managed secrets/connections; never commit or paste live keys into code or test data.
+- [ ] Review data minimization, access permissions, retention, and customer notice requirements.
+- [ ] Map every priority path to an owner and an approved response template.
+- [ ] Verify HubSpot properties, duplicate behavior, and the paths that should create/update contacts.
+- [ ] Test normal, urgent, malformed, duplicate, API-error, and delivery-failure cases.
+- [ ] Enable the Zap only after a reviewer approves end-to-end test results.
+- [ ] Monitor run failures, response delivery, lead capture, latency, and recurring costs; document rollback ownership.
+
+## About the author
+
+**Naveen Sharma — AI Automation Engineer**
+
+Zapier AI Builder credentials (**9 certifications total**, as stated by the author), with a focus on practical automation, SaaS workflows, CRM operations, and AI integrations.
+
+- **Open to:** remote roles, SaaS automation positions, and freelance projects
+- **Services:** Zapier automation consulting, workflow design, and AI integration
+- **Email:** [contact.naveensharmatech@gmail.com](mailto:contact.naveensharmatech@gmail.com)
+- **LinkedIn:** [linkedin.com/in/naveensharmatech](https://linkedin.com/in/naveensharmatech)
+- **Portfolio:** [naveensharma.net](https://naveensharma.net)
+- **GitHub:** [github.com/naveensharmatech](https://github.com/naveensharmatech)
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).

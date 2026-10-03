@@ -1,0 +1,40 @@
+{
+  "name": "Customer Inquiry Router (reference configuration)",
+  "note": "Illustrative setup only; this is not an importable Zapier export and contains no credentials.",
+  "trigger": {
+    "app": "Gmail",
+    "event": "New Email",
+    "fields": ["from", "subject", "bodyPlain", "timestamp"],
+    "filter": "Use an approved mailbox and exclude automated mail where appropriate."
+  },
+  "classification": {
+    "app": "Code by Zapier or approved Anthropic integration",
+    "inputFields": ["from", "subject", "bodyPlain"],
+    "secretName": "ANTHROPIC_API_KEY (store in Zapier secret storage)",
+    "allowedPriorities": ["HIGH", "MEDIUM", "LOW"],
+    "fallback": "Route errors or unexpected labels to human review; do not silently drop the inquiry."
+  },
+  "paths": [
+    {
+      "name": "HIGH",
+      "condition": "priority exactly matches HIGH",
+      "actions": ["Notify a staffed owner", "Send approved urgent acknowledgment"]
+    },
+    {
+      "name": "MEDIUM",
+      "condition": "priority exactly matches MEDIUM",
+      "actions": ["Assign to the appropriate queue", "Send approved acknowledgment", "Optional HubSpot create/update"]
+    },
+    {
+      "name": "LOW",
+      "condition": "priority exactly matches LOW",
+      "actions": ["Send approved information/FAQ response", "Provide a route to human support"]
+    }
+  ],
+  "productionChecks": [
+    "Map sender and content fields using synthetic messages.",
+    "Verify actual HubSpot property names and duplicate behavior.",
+    "Test API, path, CRM, and email failures before activation.",
+    "Review retention, least-privilege access, and task/provider limits."
+  ]
+}

@@ -1,10 +1,10 @@
 # Monitoring & Logging Guide
 
-This guide explains how to monitor the Customer Inquiry Router Zap and interpret logs.
+This guide describes a monitoring approach for a Zap you configure. It does not assert that an external Zap is currently active or that the sample execution data below was observed in production.
 
 ## Overview
 
-The Zap automatically logs all executions. This guide helps you understand the logs, set up alerts, and monitor performance.
+Zapier run-history availability, retention, and alert features depend on account configuration and plan. This guide helps you identify what to verify and monitor.
 
 ## Accessing Zapier Logs
 
@@ -29,7 +29,7 @@ Filter by:
 
 ## Understanding Log Entries
 
-### Successful Execution
+### Illustrative Execution (Synthetic)
 
 ```
 ✅ SUCCESS - 2024-08-29 14:32:15
@@ -57,11 +57,10 @@ Step 5 (Gmail Send): ✅ Success - Response sent
   - To: customer@example.com
   - Subject: Re: Help with my order
 
-Duration: 3.2 seconds
-Task count: 1
+Duration and task count: measure in the target account
 ```
 
-### Failed Execution
+### Illustrative Failed Execution (Synthetic)
 
 ```
 ❌ ERROR - 2024-08-29 14:33:45
@@ -83,18 +82,13 @@ Action: Check Claude API key configuration
 ## Key Metrics to Monitor
 
 ### 1. Success Rate
-- **Formula:** Successful tasks / Total tasks
-- **Target:** >99%
-- **Action:** Investigate if below 95%
+- **Formula:** Successful eligible executions / all eligible executions
+- **Target:** Set a service objective from observed baseline and business needs
+- **Action:** Investigate failures and retry patterns against that objective
 
-### 2. Average Processing Time
-- **Typical range:** 2-5 seconds per email
-- **Breakdown:**
-  - Gmail trigger: <100ms
-  - Claude API: 1-3 seconds
-  - Path routing: <100ms
-  - HubSpot: 500-1000ms
-  - Gmail send: 500-1000ms
+### 2. Processing Time
+- Measure trigger-to-classification, each action, and end-to-end acknowledgment time from run timestamps.
+- Report median and P90 over a defined period; there is no verified latency benchmark in this repository.
 
 ### 3. Error Rate
 - **Track:** Errors per 100 tasks
@@ -106,10 +100,7 @@ Action: Check Claude API key configuration
   - Invalid data
 
 ### 4. Classification Distribution
-- **HIGH:** ~20% of emails
-- **MEDIUM:** ~60% of emails
-- **LOW:** ~20% of emails
-- **Alert if:** Distribution drastically different
+- Track the observed `HIGH`/`MEDIUM`/`LOW` mix and investigate unexpected changes against the business's reviewed baseline.
 
 ### 5. HubSpot Integration Success
 - **Track:** Contacts created successfully
@@ -142,7 +133,7 @@ Create additional monitoring by:
 ### Pattern 1: API Key Expiration
 **Symptom:** All Claude API calls start failing
 **Detection:** Error 401 in Claude API step
-**Solution:** Regenerate API key, update in Zapier
+**Solution:** Rotate the key if necessary and update the Zapier-managed secret/connection
 
 ### Pattern 2: Rate Limiting
 **Symptom:** Intermittent failures, usually during high volume
@@ -187,7 +178,7 @@ Create additional monitoring by:
 ## Performance Optimization
 
 ### If Processing is Slow
-1. Check Claude API response time
+1. Measure Claude API response time from run data
 2. Verify HubSpot API latency
 3. Review email body size (very large emails slow parsing)
 4. Check Zapier task queue
@@ -250,7 +241,7 @@ HubSpot logs contact creation:
 A: Zapier may cache logs. Refresh page, wait a moment for updates.
 
 **Q: Can't see all details in logs?**
-A: Click on specific execution to see full details including raw input/output.
+A: Inspect available step status and redacted output. Do not expand, export, or retain customer message content unless authorized and necessary.
 
 **Q: Need historical data?**
 A: Export logs regularly or query Zapier API for programmatic access.
@@ -268,4 +259,3 @@ A: Check:
 - [Understanding Task Limits](https://zapier.com/help/billing/usage/what-are-my-monthly-task-limits)
 - [API Error Codes Reference](https://docs.anthropic.com/en/docs/build-with-claude/libraries)
 - [HubSpot API Response Codes](https://developers.hubspot.com/docs/api/overview)
-
