@@ -1,8 +1,44 @@
 # AI-Powered Customer Inquiry Router
 
+<div align="center">
+
+![Built with](https://img.shields.io/badge/Zapier-Reference%20workflow-FF4F00?style=for-the-badge)
+![Documentation](https://img.shields.io/badge/Explore-Documentation-2563EB?style=for-the-badge)
+
+[🌐 Naveen Sharma](https://naveensharma.net) · [💼 LinkedIn](https://www.linkedin.com/in/naveensharmatech/)
+
+</div>
+
+[At a glance](#section-1) · [Business problem and reported impact](#section-2) · [Architecture](#section-3) · [Implementation methodology](#section-4)
+
+### 🗺️ Visual overview
+
+Design overview from the documented workflow. The Zap was inactive after trial expiry; this diagram does not establish a successful end-to-end run.
+
+```mermaid
+flowchart LR
+  A["Gmail: new email"] --> B["Filter"]
+  B --> C["JavaScript"]
+  C --> D{"Zapier Paths"}
+  D --> E["Email actions"]
+  D --> F["HubSpot contact and email"]
+  D --> G["Email action"]
+  classDef input fill:#DBEAFE,stroke:#2563EB,color:#172554
+  classDef process fill:#FFF0DB,stroke:#FF6B35,color:#431407
+  classDef output fill:#DCFCE7,stroke:#16A34A,color:#14532D
+  class A input
+  class B,C,D process
+  class E output
+```
+
+---
+
+
 An automation reference project for triaging incoming customer email with Gmail, Zapier, Claude, and HubSpot. The workflow classifies inquiries by priority, routes them to an appropriate response path, and can record selected inquiries in a CRM.
 
 > **Reported project outcomes:** approximately **98% less manual triage time**, a decrease in response time from **24 hours to about 5 minutes**, and **100% lead capture**. These are reported case-study figures, not results produced by the local test suite or independently audited production telemetry. See [Performance and ROI](docs/PERFORMANCE.md) for definitions and validation guidance.
+
+<a id="section-1"></a>
 
 ## At a glance
 
@@ -13,6 +49,8 @@ An automation reference project for triaging incoming customer email with Gmail,
 | **Implementation method** | Discover → Configure → Validate → Deploy |
 | **Local checks** | 10 deterministic test cases for the keyword classifier |
 | **Status** | Reusable reference implementation; configure and validate integrations in your own accounts |
+
+<a id="section-2"></a>
 
 ## Business problem and reported impact
 
@@ -25,6 +63,8 @@ Manual triage can delay replies, make priority handling inconsistent, and leave 
 | Lead capture | 60% | 100% |
 
 These figures are context for the project story, not a service-level guarantee. Actual performance depends on account configuration, email volume, provider latency, operating hours, CRM mapping, and human follow-up. The ROI guide explains how to recalculate using your own data.
+
+<a id="section-3"></a>
 
 ## Architecture
 
@@ -45,6 +85,8 @@ Gmail trigger ──► Zapier workflow ──► Claude priority classification
 ```
 
 Gmail supplies the message fields, Claude returns a priority label, and Zapier Paths choose the follow-up. The repository includes a HubSpot mapping example; connect and test the action in the paths required by your business. See [Architecture](docs/ARCHITECTURE.md), the [workflow walkthrough](docs/WORKFLOW.md), or the [diagram description](assets/workflow-diagram.md).
+
+<a id="section-4"></a>
 
 ## Implementation methodology
 
