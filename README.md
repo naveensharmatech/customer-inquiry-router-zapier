@@ -44,11 +44,11 @@ An automation reference project for triaging incoming customer email with Gmail,
 
 | | |
 | --- | --- |
-| **Built by** | Naveen Sharma — AI Automation Engineer |
-| **Workflow** | Gmail → Zapier → Claude → priority paths → email and optional HubSpot actions |
+| **Built by** | Naveen Sharma — AI Automation & Integration Engineer |
+| **Workflow** | Gmail → Zapier JavaScript classification step → priority paths → email and optional HubSpot actions; Claude API integration is provided as a reference example |
 | **Implementation method** | Discover → Configure → Validate → Deploy |
 | **Local checks** | 10 deterministic test cases for the keyword classifier |
-| **Status** | Reusable reference implementation; configure and validate integrations in your own accounts |
+| **Status** | Reusable reference implementation; the documented Zap was inactive after trial expiry, and a successful end-to-end run is not established. Configure and validate integrations in your own accounts |
 
 <a id="section-2"></a>
 
@@ -72,7 +72,7 @@ These figures are context for the project story, not a service-level guarantee. 
 Customer email
      │
      ▼
-Gmail trigger ──► Zapier workflow ──► Claude priority classification
+Gmail trigger ──► Zapier workflow ──► Priority classification
                                           │
                                   HIGH / MEDIUM / LOW
                                     ┌─────┼─────┐
@@ -84,7 +84,7 @@ Gmail trigger ──► Zapier workflow ──► Claude priority classification
                                     (selected path)
 ```
 
-Gmail supplies the message fields, Claude returns a priority label, and Zapier Paths choose the follow-up. The repository includes a HubSpot mapping example; connect and test the action in the paths required by your business. See [Architecture](docs/ARCHITECTURE.md), the [workflow walkthrough](docs/WORKFLOW.md), or the [diagram description](assets/workflow-diagram.md).
+The visual overview documents a Zap with a JavaScript step before Zapier Paths. The repository separately includes a local keyword classifier and a Claude API integration example; the Claude reference design calls the API from Code by Zapier to obtain a priority label. Local keyword-classifier tests do not verify the Claude integration or an end-to-end Zap run. The repository includes a HubSpot mapping example; connect and test the action in the paths required by your business. See [Architecture](docs/ARCHITECTURE.md), the [workflow walkthrough](docs/WORKFLOW.md), or the [diagram description](assets/workflow-diagram.md).
 
 <a id="section-4"></a>
 
@@ -100,12 +100,12 @@ Gmail supplies the message fields, Claude returns a priority label, and Zapier P
 | Technology | Use | Skill tags |
 | --- | --- | --- |
 | Zapier | Trigger, branching, integration orchestration | `workflow-automation` `no-code` |
-| Claude API | Natural-language priority classification | `generative-ai` `prompt-design` `API-integration` |
+| Claude API | Reference example for natural-language priority classification; requires integration validation | `generative-ai` `prompt-design` `API-integration` |
 | Gmail | Incoming inquiry trigger and response delivery | `email-automation` |
 | HubSpot | Optional contact and inquiry tracking | `CRM` `RevOps` |
 | JavaScript / Node.js | Reference classifier, utilities, and local checks | `JavaScript` `testing` |
 
-## Success story and ROI
+## Reported case study and illustrative ROI
 
 The case study describes a reported change from manual triage and delayed replies to an automated acknowledgment-and-routing workflow. A practical value estimate is:
 
@@ -161,9 +161,9 @@ This command tests the repository's local classifier against the test fixture; i
 
 ## About the author
 
-**Naveen Sharma — AI Automation Engineer**
+**Naveen Sharma — AI Automation & Integration Engineer**
 
-Zapier AI Builder credentials (**9 certifications total**, as stated by the author), with a focus on practical automation, SaaS workflows, CRM operations, and AI integrations.
+Completed Zapier Academy paths: **AI Builder**, **MCP**, and **Account Admin Essentials**. Focused on practical automation, SaaS workflows, CRM operations, and AI integrations.
 
 - **Open to:** remote roles, SaaS automation positions, and freelance projects
 - **Services:** Zapier automation consulting, workflow design, and AI integration
