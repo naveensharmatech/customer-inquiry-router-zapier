@@ -118,7 +118,7 @@ function isSystemEmail(email) {
  * @returns {number} - Word count
  */
 function countWords(text) {
-  if (!text) return 0;
+  if (!text || !text.trim()) return 0;
   return text.trim().split(/\s+/).length;
 }
 
@@ -183,7 +183,7 @@ function formatResponse(name, template) {
 function parsePriority(classificationResult) {
   return {
     priority: classificationResult.priority || 'MEDIUM',
-    confidence: classificationResult.confidence || 0.5,
+    confidence: classificationResult.confidence ?? 0.5,
     sentiment: classificationResult.sentiment || 'NEUTRAL',
     intent: classificationResult.intent || 'other',
     isHighConfidence: (classificationResult.confidence || 0) > 0.8
@@ -222,3 +222,4 @@ module.exports = {
   parsePriority,
   createLogEntry
 };
+

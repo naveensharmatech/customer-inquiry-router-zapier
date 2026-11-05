@@ -34,52 +34,40 @@ function classifyEmail(subject, body) {
   }
 
   const text = (subject + ' ' + body).toLowerCase();
-  let score = 0;
-  let maxPriority = 'MEDIUM';
+  const signals = {
+    urgent: matchKeywords(text, keywords.urgent),
+    upset: matchKeywords(text, keywords.upset),
+    problem: matchKeywords(text, keywords.problem),
+    billing: matchKeywords(text, keywords.billing),
+    support: matchKeywords(text, keywords.support),
+    sales: matchKeywords(text, keywords.sales) || /\bevaluating your product\b/.test(text),
+    feedback: matchKeywords(text, keywords.feedback),
+    positive: analyzeSentiment(text) === 'POSITIVE'
+  };
+  // Resolve praise before historical problem/support words in thank-you messages.
+  const resolvedPraise = signals.positive && !signals.urgent && !signals.upset
+    && /\b(solved?|resolved|fixed|great service|great work)\b/.test(text);
+  const actionableProblem = signals.problem && !resolvedPraise;
   let intent = 'other';
-  let sentiment = 'NEUTRAL';
-  const foundKeywords = [];
+  if (resolvedPraise || (signals.feedback && !signals.urgent && !signals.upset && !actionableProblem)) intent = 'feedback';
+  else if (signals.billing && (signals.urgent || actionableProblem || !signals.support)) intent = 'billing';
+  else if (signals.support) intent = 'support';
+  else if (signals.sales) intent = 'sales';
+  else if (signals.feedback) intent = 'feedback';
 
-  // Check for HIGH priority indicators
-  if (matchKeywords(text, keywords.urgent) || matchKeywords(text, keywords.upset) || matchKeywords(text, keywords.problem)) {
-    score += 0.3;
-    foundKeywords.push('urgency_or_upset');
-  }
-
-  if (matchKeywords(text, keywords.billing)) {
-    score += 0.3;
-    foundKeywords.push('billing');
-    intent = 'billing';
-  }
-
-  if (matchKeywords(text, keywords.support)) {
-    score += 0.2;
-    foundKeywords.push('support');
-    intent = 'support';
-  }
-
-  // Determine priority level
-  if (score >= 0.8) {
+  // Explicit routing rules: urgent/upset/actionable problems outrank routine requests.
+  // These scores indicate rule strength, not calibrated probabilities.
+  let maxPriority = 'LOW';
+  let score = 0.3;
+  if (signals.urgent || signals.upset || actionableProblem) {
     maxPriority = 'HIGH';
-  } else if (score >= 0.5) {
+    score = 0.9;
+  } else if (!resolvedPraise && ['billing', 'support', 'sales'].includes(intent)) {
     maxPriority = 'MEDIUM';
-  } else {
-    maxPriority = 'LOW';
-    if (matchKeywords(text, keywords.sales)) {
-      intent = 'sales';
-    } else if (matchKeywords(text, keywords.feedback)) {
-      intent = 'feedback';
-    }
+    score = 0.6;
   }
-
-  // Analyze sentiment
-  if (matchKeywords(text, keywords.upset)) {
-    sentiment = 'NEGATIVE';
-  } else if (matchKeywords(text, ['thank', 'appreciate', 'grateful', 'excellent', 'love', 'amazing'])) {
-    sentiment = 'POSITIVE';
-  } else {
-    sentiment = 'NEUTRAL';
-  }
+  const foundKeywords = Object.keys(signals).filter(key => signals[key]);
+  const sentiment = analyzeSentiment(text);
 
   return {
     priority: maxPriority,
@@ -98,7 +86,10 @@ function classifyEmail(subject, body) {
  * @returns {boolean} - True if any keyword found
  */
 function matchKeywords(text, keywordArray) {
-  return keywordArray.some(keyword => text.includes(keyword));
+  return keywordArray.some(keyword => {
+    const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return new RegExp('(?:^|[^a-z0-9])' + escaped + '(?=$|[^a-z0-9])', 'i').test(text);
+  });
 }
 
 /**
@@ -139,8 +130,8 @@ function analyzeSentiment(text) {
   const negative = ['upset', 'angry', 'frustrated', 'disappointed', 'hate', 'terrible', 'worst', 'awful'];
 
   const lowerText = text.toLowerCase();
-  const positiveCount = positive.filter(word => lowerText.includes(word)).length;
-  const negativeCount = negative.filter(word => lowerText.includes(word)).length;
+  const positiveCount = positive.filter(word => matchKeywords(lowerText, [word])).length;
+  const negativeCount = negative.filter(word => matchKeywords(lowerText, [word])).length;
 
   if (negativeCount > positiveCount) return 'NEGATIVE';
   if (positiveCount > 0) return 'POSITIVE';
@@ -184,3 +175,4 @@ module.exports = {
   extractName,
   matchKeywords
 };
+
