@@ -7,7 +7,7 @@
  *   node test-runner.js high         # Run HIGH priority tests only
  *   node test-runner.js medium       # Run MEDIUM priority tests only
  *   node test-runner.js low          # Run LOW priority tests only
- *   node test-runner.js all claude   # Run all tests with Claude classifier
+ *   node test-runner.js all keyword  # Run local tests; external classifiers are rejected
  */
 
 const fs = require('fs');
@@ -20,7 +20,6 @@ const testCases = testCasesData.testCases;
 
 // Load classifiers
 const emailClassifier = require('../code/email-classifier');
-const utils = require('../code/utils');
 
 /**
  * Run a single test case
@@ -35,7 +34,8 @@ function runTestCase(testCase) {
       from: 'test@example.com'
     });
 
-    const passed = result.priority === testCase.expectedPriority;
+    const passed = result.priority === testCase.expectedPriority
+      && (!testCase.expectedIntent || result.intent === testCase.expectedIntent);
     
     return {
       id: testCase.id,
@@ -46,6 +46,7 @@ function runTestCase(testCase) {
       confidence: result.confidence,
       sentiment: result.sentiment,
       intent: result.intent,
+      expectedIntent: testCase.expectedIntent,
       reason: testCase.description
     };
   } catch (error) {
@@ -98,7 +99,7 @@ function generateReport(results) {
     } else {
       report += `   Confidence: ${(result.confidence * 100).toFixed(0)}%\n`;
       report += `   Sentiment: ${result.sentiment}\n`;
-      report += `   Intent: ${result.intent}\n`;
+      report += `   Intent: ${result.intent} (expected: ${result.expectedIntent || "not asserted"})\n`;
     }
     report += '\n';
   });
@@ -121,6 +122,11 @@ function main() {
   console.log('\n🧪 Running tests...\n');
   console.log(`Priority filter: ${priorityFilter.toUpperCase()}`);
   console.log(`Classifier: ${classifier}\n`);
+
+  if (classifier !== 'keyword') {
+    console.error('Only the local keyword classifier is supported by this runner. No Claude API request was made.');
+    process.exit(1);
+  }
 
   // Filter test cases
   const filteredTests = filterByPriority(testCases, priorityFilter);
@@ -164,3 +170,4 @@ module.exports = {
   filterByPriority,
   generateReport
 };
+

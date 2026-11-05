@@ -175,3 +175,10 @@ Completed Zapier Academy paths: **AI Builder**, **MCP**, and **Account Admin Ess
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
+
+
+## Local routing policy
+
+The keyword fallback routes explicit urgency, upset language and unresolved problem indicators to HIGH; routine support, sales and billing requests to MEDIUM; and informational messages, feature suggestions and resolved positive feedback to LOW. Matching uses token boundaries, so `now` does not match `know`, and `hate` does not match `whatever`. This remains a heuristic: negation and nuanced language may need human review. Its confidence field is a rule-strength score, not a calibrated probability.
+
+`npm test` checks priority and intent for the ten sample messages and runs additional regression cases. The fixture's subjective sentiment labels are not asserted by this runner. Only the local keyword classifier is supported; requesting another classifier fails explicitly rather than silently running keyword tests. These checks do not establish a live Zapier, Claude or HubSpot integration. Node.js 18 or later is required for the regression test runner.
